@@ -10,11 +10,8 @@ import { SignupPage } from '../pages/signup/signup';
 import { ConfirmSignInPage } from '../pages/confirmSignIn/confirmSignIn';
 import { ConfirmSignUpPage } from '../pages/confirmSignUp/confirmSignUp';
 import { SettingsPage } from '../pages/settings/settings';
-import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
-import { TabsPage } from '../pages/tabs/tabs';
-import { TasksPage } from '../pages/tasks/tasks';
-import { TasksCreatePage } from '../pages/tasks-create/tasks-create';
+import { TabbedHomePageModule } from '../pages/tabbed-home/tabbed-home.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,14 +31,11 @@ Amplify.configure(aws_exports);
     ConfirmSignInPage,
     ConfirmSignUpPage,
     SettingsPage,
-    AboutPage,
-    AccountPage,
-    TabsPage,
-    TasksPage,
-    TasksCreatePage
+    AccountPage
   ],
   imports: [
     BrowserModule,
+    TabbedHomePageModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -52,11 +46,7 @@ Amplify.configure(aws_exports);
     ConfirmSignInPage,
     ConfirmSignUpPage,
     SettingsPage,
-    AboutPage,
-    AccountPage,
-    TabsPage,
-    TasksPage,
-    TasksCreatePage
+    AccountPage
   ],
   providers: [
     StatusBar,

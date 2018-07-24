@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { Auth, Logger } from 'aws-amplify';
 
-import { TabsPage } from '../tabs/tabs';
+import { TabbedHomePage } from '../tabbed-home/tabbed-home';
 import { SignupPage } from '../signup/signup';
 import { ConfirmSignInPage } from '../confirmSignIn/confirmSignIn';
 
@@ -41,7 +41,7 @@ export class LoginPage {
         if (user.challengeName === 'SMS_MFA') {
           this.navCtrl.push(ConfirmSignInPage, { 'user': user });
         } else {
-          this.navCtrl.setRoot(TabsPage);
+          this.navCtrl.setRoot(TabbedHomePage);
         }
       })
       .catch(err => logger.debug('errrror', err))

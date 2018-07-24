@@ -14,3 +14,216 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-slide {
+    ion-list {
+      overflow-y: scroll;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      padding-top: 68px;
+      padding-bottom: 115px;
+    }
+  
+    overflow: hidden;
+  }
+  
+.content-div {
+  background: color($colors, background);
+  width: 105vw;
+  padding: 0;
+  margin: 0;
+}
+
+ion-header {
+  z-index: 2;
+  border: 0;
+  background: transparent;
+
+  ion-navbar {
+    display: block;
+
+    .header-tabs {
+      background: transparent;
+      width: 105vw;
+      top: 0;
+    }
+
+    .search-button {
+      //padding-right: 4vw;
+      font-size: 25px;
+      padding-right: 2vw;
+    }
+
+    .post-button {
+      font-size: 25px;
+      padding-right: 1.5vw;
+    }
+  }
+
+  ion-searchbar {
+    padding: 0;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .post-input {
+    z-index: 1;
+  }
+
+  .post-cancel {
+    z-index: 2;
+    font-size: 25px;
+    color: black;
+  }
+
+  .camera-button {
+    font-size: 25px;
+    padding-right: 1.5vw;
+  }
+}
+
+.footer {
+  height: 6%;
+  bottom: 0;
+  position: fixed;
+  z-index: 2;
+
+  .footer-button {
+    background: color($colors, head);
+    width: 60%;
+    font-size: 25px;
+    text-align: center;
+    font-family: berkswash;
+    text-transform: none;
+    color: white;
+    height: auto;
+    bottom: 0;
+    position: absolute;
+    height: 100%;
+    align-content: center;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    z-index: 3;
+    border-radius: 0;
+  }
+
+  .map-button {
+    position: relative;
+    width: 20%;
+    padding: 0;
+    margin: 0;
+    margin-left: 60%;
+    bottom: 0;
+    height: fill;
+    z-index: 2;
+    font-size: 25px;
+    border-radius: 0px;
+  }
+
+  .calendar-button {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 20%;
+    bottom: 0;
+    height: fill;
+    font-size: 25px;
+    border-radius: 0px;
+  }
+}
+
+@font-face {
+  font-family: 'berkswash';
+  src: url('../assets/fonts/berkshireswash.woff2') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+ion-title {
+  font-family: berkswash;
+  font-size: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.settings-button {
+  font-size: 25px;
+  padding: 0;
+  margin: 0;
+  padding-left: 90%;
+}
+
+.text-post {
+  width: 100%;
+  min-height: 100px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  background: white;
+  position: relative;
+  text-align: left;
+  display: flex;
+
+  .post {
+    width: 100vw;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-header {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px;
+    border-color: grey;
+    border-style: solid;
+
+    p {
+      font-size: 1.5rem;
+      padding-left: 1%;
+    }
+    h2 {
+      font-size: 2rem;
+      padding-left: 1%;
+    }
+    .post-avatar {
+      width: 50px;
+      height: 75px;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      background: white;
+      border-width: 1px;
+      border-style: solid;
+      border-color: grey;
+      border-radius: 2px;
+      border-top: 0;
+      border-left: 0;
+      border-bottom: 0;
+    }
+
+    .post-options-button {
+      font-size: 3rem;
+      padding: 0;
+      margin: 0;
+      padding-right: 1.5vw;
+      color: color($colors, background);
+    }
+  }
+
+  .post-context {
+    margin: 0;
+    margin-top: 1%;
+    margin-left: 2%;
+    top: auto;
+    padding: 0;
+    font-size: 2rem;
+    height: auto;
+    min-height: 80px;
+  }
+
+}

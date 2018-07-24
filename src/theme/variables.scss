@@ -38,7 +38,12 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+    background: #8EAFB7,
+  head: (
+    base: #5D7A9A,
+    contrast: white
+  ),
 );
 
 
@@ -46,7 +51,7 @@ $colors: (
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
+$card-ios-header-font-size: 2.5rem;
 
 
 // App Material Design Variables

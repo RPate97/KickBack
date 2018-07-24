@@ -1,0 +1,133 @@
+﻿<!--
+  Generated template for the TabbedHomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-navbar color="head" no-shadow="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="!toggleSearch" class="page-title">{{this.title}}</ion-title>
+    <ion-searchbar *ngIf="toggleSearch && !togglePost" showCancelButton="true" (ionCancel)="togSearch()" (search)="searched($event)"></ion-searchbar>
+    <ion-buttons *ngIf="!toggleSearch" right>
+      <button ion-button (click)="togCamera()" class="camera-button" clear>
+        <ion-icon name="camera"></ion-icon>
+      </button>
+      <button ion-button (click)="togPost()" class="post-button" clear>
+        <ion-icon name="text"></ion-icon>
+      </button>
+      <button ion-button *ngIf="!toggleSearch" (click)="togSearch()" class="search-button" clear>
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
+  </ion-navbar>
+  <ion-segment color="light" [(ngModel)]="tabs" class="header-tabs" mode="md">
+    <ion-segment-button (click)="tabbed(0)" value="0">
+      <ion-icon name="mail"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button (click)="tabbed(1)" value="1">
+      <ion-icon name="home"></ion-icon>
+    </ion-segment-button>
+    <ion-segment-button (click)="tabbed(2)" value="2">
+      <ion-icon name="globe"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-item *ngIf="togglePost" class="post-input">
+    <ion-input type="text" placeholder="What's up?"></ion-input>
+    <button ion-button clear item-right (click)="togPost()" class="post-cancel">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-item>
+</ion-header>
+
+<ion-content class="content-div" scrollbar-y="false">
+  <ion-slides #pageSlider (ionSlideWillChange)="changeWillSlide($event)" initialSlide="1">
+    <ion-slide *ngIf="canLoadEventPage === true">
+      
+      <ion-list>
+          <div *ngFor="let post of event_posts" class="text-post">
+            <ion-card class="post">
+              <ion-item class="post-header">
+                <div class="post-avatar" item-start>
+  
+                </div>
+                <h2 class="post-name">{{post.Name}}</h2>
+                <p class="post-date">{{post.Date}}</p>
+                <button ion-button (click)="expandPostOptions()" class="post-options-button" clear item-end>
+                  <ion-icon name="more"></ion-icon>
+                </button>
+              </ion-item>
+              <ion-card-content class="post-context">
+                {{post.Context}}
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-list>
+    
+    </ion-slide>
+
+    <ion-slide>
+
+      <ion-list>
+        <div *ngFor="let post of home_posts" class="text-post">
+          <ion-card class="post">
+            <ion-item class="post-header">
+              <div class="post-avatar" item-start>
+
+              </div>
+              <h2 class="post-name">{{post.Name}}</h2>
+              <p class="post-date">{{post.Date}}</p>
+              <button ion-button (click)="expandPostOptions()" class="post-options-button" clear item-end>
+                <ion-icon name="more"></ion-icon>
+              </button>
+            </ion-item>
+            <ion-card-content class="post-context">
+              {{post.Context}}
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-list>
+
+    </ion-slide>
+
+    <ion-slide  *ngIf="canLoadAreaPage === true">
+
+        <ion-list>
+            <div *ngFor="let post of area_posts" class="text-post">
+              <ion-card class="post">
+                <ion-item class="post-header">
+                  <div class="post-avatar" item-start>
+    
+                  </div>
+                  <h2 class="post-name">{{post.Name}}</h2>
+                  <p class="post-date">{{post.Date}}</p>
+                  <button ion-button (click)="expandPostOptions()" class="post-options-button" clear item-end>
+                    <ion-icon name="more"></ion-icon>
+                  </button>
+                </ion-item>
+                <ion-card-content class="post-context">
+                  {{post.Context}}
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </ion-list>
+
+    </ion-slide>
+  </ion-slides>
+  <ion-footer>
+    <ion-segment color="light">
+      <button ion-button class="calendar-button">
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+      <button ion-button class="footer-button">Kick It!</button>
+      <button ion-button class="map-button">
+        <ion-icon name="map"></ion-icon>
+      </button>
+    </ion-segment>
+  </ion-footer>
+</ion-content>

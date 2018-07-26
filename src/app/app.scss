@@ -156,24 +156,23 @@ ion-title {
   padding-left: 90%;
 }
 
+.content-slide{
+  //height: 100vh;
+}
+
 .text-post {
   width: 100%;
   min-height: 100px;
   height: auto;
   margin: 0;
   padding: 0;
-  margin-bottom: 10px;
+  margin-bottom: 1px;
   background: white;
   position: relative;
   text-align: left;
   display: flex;
-
-  .post {
-    width: 100vw;
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-  }
+  width: 100vw;
+  display: inline-block;
 
   .post-header {
     margin: 0;

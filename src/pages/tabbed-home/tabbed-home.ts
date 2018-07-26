@@ -31,10 +31,11 @@ export class TabbedHomePage {
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
+          type: 'photo',
           Name: 'Joe',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
+          Context: 'This shouldnt work',
+          Date: 'July 16th, 2018',
+          imageSource: 'imgs/testPhoto.jpeg'
       },
       {
           type: 'text',
@@ -250,5 +251,9 @@ export class TabbedHomePage {
   searched($event){ //handle searches
     console.log($event.target.value); //right now this just prints to console and toggles seach bar needs implementation server side
     this.togSearch(); 
+  }
+
+  loadMore($event){
+      console.log('loading...');
   }
 }

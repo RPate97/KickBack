@@ -1,19 +1,25 @@
 <ion-menu [content]="content" [swipeEnabled]="true">
   <ion-header>
     <ion-toolbar color="head">
-      <ion-title>Profile</ion-title>
+      <ion-title>Menu</ion-title>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content color="pageBackground">
-    <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
-      <ion-icon name="settings"></ion-icon>
-    </button>
+  <ion-content color="pageBackground" class="menu-content">
     <ion-list>
+      <button ion-button color="light" class="menu-Button">Going on now</button>
+      <button ion-button color="light" class="menu-Button">Popular near me</button>
+      <button ion-button color="light" class="menu-Button">Popular worldwide</button>
     </ion-list>
+
+    <ion-footer>
+      <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-footer>
   </ion-content>
 </ion-menu>
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

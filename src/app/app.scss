@@ -20,7 +20,6 @@ ion-slides {
       width: 100vw;
       height: 90vh;
       z-index: 1;
-
     }
   
     overflow: hidden;
@@ -33,6 +32,32 @@ ion-slides {
   margin: 0;
   top: 0;
   height: 100vh;
+}
+
+.menu-content {
+  height: 100%;
+
+  .menu-Button {
+    width: 100%;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    .button-inner {
+      justify-content: flex-start;
+      padding-left: 5px;
+    }
+  }
+
+  
+  .settings-button {
+    font-size: 25px;
+    padding: 0;
+    margin: 0;
+    margin-left: 90%;
+    margin-top: 2%;
+  }
 }
 
 ion-header {
@@ -147,13 +172,6 @@ ion-title {
   font-size: 25px;
   margin: 0;
   padding: 0;
-}
-
-.settings-button {
-  font-size: 25px;
-  padding: 0;
-  margin: 0;
-  padding-left: 90%;
 }
 
 .content-slide{

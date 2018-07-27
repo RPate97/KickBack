@@ -253,7 +253,21 @@ export class TabbedHomePage {
     this.togSearch(); 
   }
 
-  loadMore($event){
-      console.log('loading...');
+  loadMorePosts(infiniteScroll){
+    console.log('loading');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 2000);
+  }
+
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 1000);
   }
 }

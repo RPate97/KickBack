@@ -8,18 +8,19 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content color="pageBackground" class="menu-content">
+  <ion-content no-bounce color="pageBackground" class="menu-content">
     <ion-list>
+      <button ion-button color="light" class="menu-Button">Home Feed</button>
       <button ion-button color="light" class="menu-Button">Going on now</button>
       <button ion-button color="light" class="menu-Button">Popular near me</button>
       <button ion-button color="light" class="menu-Button">Popular worldwide</button>
     </ion-list>
-
-    <ion-footer>
-      <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
-        <ion-icon name="settings"></ion-icon>
-      </button>
-    </ion-footer>
   </ion-content>
+  
+  <ion-footer class="menu-footer">
+    <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
+      <ion-icon name="settings"></ion-icon>
+    </button>
+  </ion-footer>
 </ion-menu>
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

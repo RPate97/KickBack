@@ -15,14 +15,12 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-ion-slide {
+ion-slides {
     ion-list {
-      overflow-y: scroll;
       width: 100vw;
-      height: 100vh;
+      height: 90vh;
       z-index: 1;
-      padding-top: 68px;
-      padding-bottom: 115px;
+
     }
   
     overflow: hidden;
@@ -30,9 +28,11 @@ ion-slide {
   
 .content-div {
   background: color($colors, background);
-  width: 105vw;
+  width: 100vw;
   padding: 0;
   margin: 0;
+  top: 0;
+  height: 100vh;
 }
 
 ion-header {
@@ -45,7 +45,7 @@ ion-header {
 
     .header-tabs {
       background: transparent;
-      width: 105vw;
+      width: 100vw;
       top: 0;
     }
 
@@ -87,7 +87,7 @@ ion-header {
 .footer {
   height: 6%;
   bottom: 0;
-  position: fixed;
+  position: absolute;
   z-index: 2;
 
   .footer-button {

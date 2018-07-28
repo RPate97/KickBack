@@ -11,6 +11,39 @@
     </ion-slide>
 
     <ion-slide class="content-slide">
+
+        <ion-split-pane when="xs">
+          <ion-menu [content]="content" side="right" mode="md">
+              <ion-header>
+                hello :)
+              </ion-header>
+              <ion-content no-bounce>
+                <div class="vertical-tabs">
+                  <button ion-button large block clear icon-only [color]="isHome ? 'dark' : 'light'" (click)="goToHome()">
+                    <ion-icon name="home"></ion-icon>
+                  </button>
+                  <button ion-button large block clear icon-only [color]="isGoing ? 'dark' : 'light'" (click)="goToGoingOn()">
+                    <ion-icon name="bonfire"></ion-icon>
+                  </button>
+                  <button ion-button large block clear icon-only [color]="isNearby ? 'dark' : 'light'" (click)="goToNearby()">
+                    <ion-icon name="pin"></ion-icon>
+                  </button>
+                  <button ion-button large block clear icon-only [color]="isWorldwide ? 'dark' : 'light'" (click)="goToWorldwide()">
+                    <ion-icon name="globe"></ion-icon>
+                  </button>
+                </div>
+              </ion-content>
+            <ion-footer>
+              <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
+                <ion-icon name="settings"></ion-icon>
+              </button>
+            </ion-footer>
+          </ion-menu>
+        
+          <ion-nav [root]="rootPage" #content main></ion-nav>
+        </ion-split-pane>
+
+
         <ion-header>
           <ion-navbar color="head" no-shadow="true">
             <button ion-button menuToggle>
@@ -30,22 +63,6 @@
               </button>
             </ion-buttons>
           </ion-navbar>
-
-            <ion-segment [(ngModel)]="feedTabs" class="header-tabs" color="toolbar" mode="md">
-              <ion-segment-button value="home" (tap)="goToHome()">
-                <ion-icon name="home"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="now" (tap)="goToGoingOn()">
-                <ion-icon name="bonfire"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="nearby" (tap)="goToPopularNear()">
-                <ion-icon name="pin"></ion-icon>
-              </ion-segment-button>
-              <ion-segment-button value="worldwide" (tap)="goToWorldwide()">
-                <ion-icon name="globe"></ion-icon>
-              </ion-segment-button>
-            </ion-segment>
-
 
           <ion-item *ngIf="togglePost" class="post-input">
             <ion-input type="text" placeholder="What's up?"></ion-input>

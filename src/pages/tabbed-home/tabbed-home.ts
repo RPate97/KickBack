@@ -21,6 +21,10 @@ export class TabbedHomePage {
   togglePost: any = false; //set post toggle to default false
   title: any = 'KickBack'; //set title to kickback default
   currentPage: any = 1;
+  isHome = true;
+  isGoing = false;
+  isNearby = false;
+  isWorldwide = false;
   homePosts = [ //create some test content will need to be replaced with server content
       {
           type: 'text',
@@ -257,21 +261,37 @@ export class TabbedHomePage {
     console.log("loading home...");
     this.title = 'KickBack';
     this.displayPosts = this.homePosts as any[];
+    this.isHome = true;
+    this.isGoing = false;
+    this.isNearby = false;
+    this.isWorldwide = false;
   }
   goToGoingOn(){
     console.log("loading going on now...");
     this.title = 'Going on Now';
     this.displayPosts = this.goingOnNowPosts as any[];
+    this.isHome = false;
+    this.isGoing = true;
+    this.isNearby = false;
+    this.isWorldwide = false;
   }
-  goToPopularNear(){
+  goToNearby(){
     console.log("loading popular nearby...");
     this.title = 'Nearby';
     this.displayPosts = this.popularNearbyPosts as any[];
+    this.isHome = false;
+    this.isGoing = false;
+    this.isNearby = true;
+    this.isWorldwide = false;
   }
   goToWorldwide(){
     console.log("loading popular worldwide...");
     this.title = 'Worldwide';
     this.displayPosts = this.popularWorldwidePosts as any[];
+    this.isHome = false;
+    this.isGoing = false;
+    this.isNearby = false;
+    this.isWorldwide = true;
   }
 
   ionViewDidLoad() { //on finished loading begin rendering event/area feed

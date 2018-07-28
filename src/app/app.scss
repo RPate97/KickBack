@@ -62,20 +62,20 @@ ion-slides {
   }
 }
 
-
 ion-header {
   z-index: 2;
   border: 0;
   background: transparent;
 
+  ion-segment {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
   ion-navbar {
     display: block;
-
-    .header-tabs {
-      background: transparent;
-      width: 100vw;
-      top: 0;
-    }
 
     .search-button {
       //padding-right: 4vw;

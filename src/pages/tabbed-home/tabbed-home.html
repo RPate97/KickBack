@@ -6,7 +6,7 @@
 -->
 <ion-content no-bounce>
   <ion-slides  (ionSlideWillChange)="changeWillSlide($event)" initialSlide="1">
-    <ion-slide *ngIf="canLoadEventPage === true">
+    <ion-slide>
         camera page
     </ion-slide>
 
@@ -31,6 +31,22 @@
             </ion-buttons>
           </ion-navbar>
 
+            <ion-segment [(ngModel)]="feedTabs" class="header-tabs" color="toolbar" mode="md">
+              <ion-segment-button value="home" (tap)="goToHome()">
+                <ion-icon name="home"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="now" (tap)="goToGoingOn()">
+                <ion-icon name="bonfire"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="nearby" (tap)="goToPopularNear()">
+                <ion-icon name="pin"></ion-icon>
+              </ion-segment-button>
+              <ion-segment-button value="worldwide" (tap)="goToWorldwide()">
+                <ion-icon name="globe"></ion-icon>
+              </ion-segment-button>
+            </ion-segment>
+
+
           <ion-item *ngIf="togglePost" class="post-input">
             <ion-input type="text" placeholder="What's up?"></ion-input>
             <button ion-button clear item-right (click)="togPost()" class="post-cancel">
@@ -46,7 +62,7 @@
           </ion-refresher>
 
           <ion-list>
-            <ion-card *ngFor="let post of home_posts" class="text-post">
+            <ion-card *ngFor="let post of displayPosts" class="text-post">
               <ion-item class="post-header">
                 <div class="post-avatar" item-start>
 
@@ -86,7 +102,7 @@
 
     </ion-slide>
 
-    <ion-slide  *ngIf="canLoadAreaPage === true">
+    <ion-slide>
         profile page
     </ion-slide>
   </ion-slides>

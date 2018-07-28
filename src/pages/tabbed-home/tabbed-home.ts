@@ -1,5 +1,6 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
+import { Events } from 'ionic-angular';
 
 /**
  * Generated class for the TabbedHomePage page.
@@ -16,18 +17,15 @@ import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 export class TabbedHomePage {
   @ViewChild('pageSlider') pageSlider: Slides; //setup View
   
-  canLoadEventPage: any = false; //set loading variables to default false
-  canLoadAreaPage: any = false;
   toggleSearch: any = false; //set search toggle to default false
   togglePost: any = false; //set post toggle to default false
-  tabs: any = '1'; //set tabs current page to 1 i.e home
   title: any = 'KickBack'; //set title to kickback default
   currentPage: any = 1;
-  home_posts = [ //create some test content will need to be replaced with server content
+  homePosts = [ //create some test content will need to be replaced with server content
       {
           type: 'text',
           Name: 'Ryan',
-          Context: 'This might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually workThis might actually work',
+          Context: 'This is the home feed',
           Date: 'July 16th, 2018'
       },
       {
@@ -126,10 +124,10 @@ export class TabbedHomePage {
       }
   ];
 
-  area_posts = [ //content for area feed
+  goingOnNowPosts = [ //content for area feed
       {
           Name: 'Emelia',
-          Context: 'This might actually work'
+          Context: 'This this is the going on now feed'
       },
       {
           Name: 'Ryan',
@@ -149,10 +147,10 @@ export class TabbedHomePage {
       }
   ]
 
-  event_posts = [ //content for event feed
+  popularNearbyPosts = [ //content for event feed
     {
         Name: 'Ryan',
-        Context: 'This might actually work'
+        Context: 'This is the popular nearby feed'
     },
     {
         Name: 'Joe',
@@ -199,39 +197,88 @@ export class TabbedHomePage {
         Context: 'This might actually work'
     }
   ]
-  constructor(public navCtrl: NavController, public navParams: NavParams) { //setup page
+
+  popularWorldwidePosts = [ //content for event feed
+    {
+        Name: 'Ryan',
+        Context: 'This is the popular worldwide feed'
+    },
+    {
+        Name: 'Joe',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Rohan',
+        Context: 'This might actually work'
+    },      
+    {
+        Name: 'Emelia',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Ryan',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Joe',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Rohan',
+        Context: 'This might actually work'
+    },      
+    {
+        Name: 'Emelia',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Ryan',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Joe',
+        Context: 'This might actually work'
+    },
+    {
+        Name: 'Rohan',
+        Context: 'This might actually work'
+    },      
+    {
+        Name: 'Emelia',
+        Context: 'This might actually work'
+    }
+  ]
+  displayPosts = this.homePosts;
+  feedTabs: any = 'home';
+  constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events) { //setup page
+  }
+
+  goToHome(){
+    console.log("loading home...");
+    this.title = 'KickBack';
+    this.displayPosts = this.homePosts as any[];
+  }
+  goToGoingOn(){
+    console.log("loading going on now...");
+    this.title = 'Going on Now';
+    this.displayPosts = this.goingOnNowPosts as any[];
+  }
+  goToPopularNear(){
+    console.log("loading popular nearby...");
+    this.title = 'Nearby';
+    this.displayPosts = this.popularNearbyPosts as any[];
+  }
+  goToWorldwide(){
+    console.log("loading popular worldwide...");
+    this.title = 'Worldwide';
+    this.displayPosts = this.popularWorldwidePosts as any[];
   }
 
   ionViewDidLoad() { //on finished loading begin rendering event/area feed
-    console.log('ionViewDidLoad TabbedHomePage');
-    this.canLoadAreaPage = true;
-    console.log('area feed began loading');
-    this.canLoadEventPage = true;
-    console.log('event feed began loading');
   }
 
-  tabbed(index) { //handle navigation via tabs
-    this.currentPage = index;
-    if(index === 0){
-      this.title = 'Events'; //change title to match page
-    }else if (index === 1) {
-      this.title = 'KickBack';
-    }else if(index === 2) {
-      this.title = 'Around Me';
-    }
-    this.pageSlider.slideTo(index); //slide between pages
-  }
+  changeWillSlide($event) { //handle slides setup on event
 
-  changeWillSlide($event) { //handle swipe to slide
-      this.currentPage = $event._snapIndex; //get current page
-      if($event._snapIndex === 0){ //modify title based on destination
-        this.title = 'Events';
-      }else if ($event._snapIndex === 1) {
-        this.title = 'KickBack';
-      }else if($event._snapIndex === 2) {
-        this.title = 'Around Me';
-      }
-      this.tabs = $event._snapIndex.toString(); //handle swipe
   }
 
   togSearch(){
@@ -270,4 +317,5 @@ export class TabbedHomePage {
       refresher.complete();
     }, 1000);
   }
+
 }

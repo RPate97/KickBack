@@ -252,6 +252,74 @@ export class TabbedHomePage {
         Context: 'This might actually work'
     }
   ]
+  userData = {
+    Name: "Ryan",
+    Acquaintances: 25,
+    Friends: 53,
+    Sociality: 7543,
+    Posts: [
+        {
+            type: 'text',
+            Name: 'Joe',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Rohan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },      
+        {
+            type: 'text',
+            Name: 'Emelia',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Ryan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Joe',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Joe',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Rohan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },      
+        {
+            type: 'text',
+            Name: 'Emelia',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Ryan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Joe',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        }
+    ]
+  }
   displayPosts = this.homePosts;
   feedTabs: any = 'home';
   constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events) { //setup page

@@ -3,11 +3,11 @@ import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Auth } from 'aws-amplify';
+import { App } from 'ionic-angular';
 
 import { TabbedHomePage } from '../pages/tabbed-home/tabbed-home';
 import { LoginPage } from '../pages/login/login';
-import { SettingsPage } from '../pages/settings/settings';
-import { Events } from 'ionic-angular';
+import { AccountPage } from '../pages/account/account';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +16,7 @@ export class MyApp {
   rootPage:any = null;
   @ViewChild(Nav) nav: Nav;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public events: Events) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public app: App) {
     let globalActions = function() {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -33,13 +33,41 @@ export class MyApp {
       });
   }
 
-  openSettings(){
-    console.log("opening settings");
-    this.nav.push(SettingsPage);
+
+  goToAccount(){
+    this.nav.push(AccountPage);
   }
 
-  goToFeed(i){
+  goToAbout(){
+    console.log("opening about");
+  }
 
-    this.events.publish('functionCall:goToFeed', i);
+  goToSafety(){
+    console.log("opening safety");
+  }
+
+  goToFAQ(){
+    console.log("opening FAQ");
+  }
+
+  goToPrivacySettings(){
+    console.log("opening privacy settings");
+  }
+
+  goToPrivacyPolicy(){
+    console.log("opening privacy");
+  }
+
+  goToTerms(){
+    console.log("opening terms");
+  }
+
+  goToAppSettings(){
+    console.log("opening app settings");
+  }
+
+  logout() {
+    Auth.signOut()
+      .then(() => this.nav.setRoot(LoginPage));
   }
 }

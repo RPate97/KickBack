@@ -8,6 +8,38 @@
     </ion-toolbar>
   </ion-header>
   
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="goToAppSettings()" [menuClose]>
+        App Settings
+      </button>
+      <button ion-item (click)="goToPrivacySettings()" [menuClose]>
+        Privacy Settings
+      </button>
+      <button ion-item (click)="goToAccount()" [menuClose]>
+        Account Details
+      </button>
+      <button ion-item (click)="goToAbout()" [menuClose]>
+        About KickBack
+      </button>
+      <button ion-item (click)="goToSafety()" [menuClose]>
+        Staying safe on KickBack
+      </button>
+      <button ion-item (click)="goToFAQ()" [menuClose]>
+        FAQ
+      </button>
+      <button ion-item (click)="goToPrivacyPolicy()" [menuClose]>
+        Privacy Policy
+      </button>
+      <button ion-item (click)="goToTerms()" [menuClose]>
+        Terms of Service
+      </button>
+      <button ion-item (click)="logout()" [menuClose]>
+        <ion-label color="danger">Logout</ion-label>
+      </button>
+    </ion-list>
+  </ion-content>
+
   <ion-footer class="menu-footer">
     <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
       <ion-icon name="settings"></ion-icon>

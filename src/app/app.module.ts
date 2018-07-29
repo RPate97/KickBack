@@ -9,7 +9,6 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { ConfirmSignInPage } from '../pages/confirmSignIn/confirmSignIn';
 import { ConfirmSignUpPage } from '../pages/confirmSignUp/confirmSignUp';
-import { SettingsPage } from '../pages/settings/settings';
 import { AccountPage } from '../pages/account/account';
 import { TabbedHomePageModule } from '../pages/tabbed-home/tabbed-home.module';
 
@@ -30,7 +29,6 @@ Amplify.configure(aws_exports);
     SignupPage,
     ConfirmSignInPage,
     ConfirmSignUpPage,
-    SettingsPage,
     AccountPage
   ],
   imports: [
@@ -45,7 +43,6 @@ Amplify.configure(aws_exports);
     SignupPage,
     ConfirmSignInPage,
     ConfirmSignUpPage,
-    SettingsPage,
     AccountPage
   ],
   providers: [

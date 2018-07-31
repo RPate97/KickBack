@@ -121,10 +121,18 @@
 
     <ion-slide>
       <ion-content class="user-content-div">
-        <h2>{{userData.Name}}</h2>
-        <p>{{userData.Friends}}</p>
-        <p>{{userData.Acquaintances}}</p>
-        <p>{{userData.Sociality}}</p>
+        <ion-card class="profileCard">
+          <ion-card-header>
+            <h2>{{userData.Name}}</h2>
+            <p>{{userData.Friends}}</p>
+            <p>{{userData.Acquaintances}}</p>
+            <p>{{userData.Sociality}}</p>
+          </ion-card-header>
+          <ion-card-content>
+
+          </ion-card-content>
+        </ion-card>
+
         <ion-list>
           <ion-card *ngFor="let post of userData.Posts" class="text-post">
             <ion-item class="post-header">
@@ -142,6 +150,13 @@
             </ion-card-content>
           </ion-card>
         </ion-list>
+
+        <ion-infinite-scroll (ionInfinite)="loadMoreUserPosts($event)" threshold="300px" position="bottom">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </ion-content>
     </ion-slide>
   </ion-slides>

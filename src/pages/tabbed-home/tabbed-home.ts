@@ -397,6 +397,15 @@ export class TabbedHomePage {
     }, 2000);
   }
 
+  loadMoreUserPosts(infiniteScroll){
+    console.log('loading user posts');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 2000);
+  }
+
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
 

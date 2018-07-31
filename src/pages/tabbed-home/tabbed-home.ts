@@ -18,13 +18,13 @@ export class TabbedHomePage {
   @ViewChild('pageSlider') pageSlider: Slides; //setup View
   
   toggleSearch: any = false; //set search toggle to default false
-  togglePost: any = false; //set post toggle to default false
   title: any = 'KickBack'; //set title to kickback default
   currentPage: any = 1;
   isHome = true;
   isGoing = false;
   isNearby = false;
   isWorldwide = false;
+  stringSave: any = 'KickBack';
   homePosts = [ //create some test content will need to be replaced with server content
       {
           type: 'text',
@@ -260,19 +260,19 @@ export class TabbedHomePage {
     Posts: [
         {
             type: 'text',
-            Name: 'Joe',
+            Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
             type: 'text',
-            Name: 'Rohan',
+            Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },      
         {
             type: 'text',
-            Name: 'Emelia',
+            Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
@@ -284,25 +284,7 @@ export class TabbedHomePage {
         },
         {
             type: 'text',
-            Name: 'Joe',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
-        },
-        {
-            type: 'text',
-            Name: 'Joe',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
-        },
-        {
-            type: 'text',
-            Name: 'Rohan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
-        },      
-        {
-            type: 'text',
-            Name: 'Emelia',
+            Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
@@ -314,7 +296,25 @@ export class TabbedHomePage {
         },
         {
             type: 'text',
-            Name: 'Joe',
+            Name: 'Ryan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },      
+        {
+            type: 'text',
+            Name: 'Ryan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Ryan',
+            Context: 'This might actually work',
+            Date: 'July 16th, 2018'
+        },
+        {
+            type: 'text',
+            Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         }
@@ -366,7 +366,15 @@ export class TabbedHomePage {
   }
 
   changeWillSlide($event) { //handle slides setup on event
-
+    if($event.realIndex == 0){
+        this.stringSave = this.title;
+        this.title = "Communities";
+    }else if($event.realIndex == 1){
+        this.title = this.stringSave;
+    }else if ($event.realIndex == 2){
+        this.stringSave = this.title;
+        this.title = this.userData.Name;
+    }
   }
 
   togSearch(){
@@ -374,8 +382,8 @@ export class TabbedHomePage {
       this.toggleSearch = !this.toggleSearch; //toggle the search bar visible invisible 
   }
 
-  togPost(){
-      this.togglePost = !this.togglePost;
+  makePost(){
+      console.log("posting");
   }
 
   togCamera(){

@@ -39,11 +39,12 @@ ion-slides {
 
 .content-div {
   background: color($colors, background);
-  width: 90vw;
+  width: calc(90vw + 1px);
   padding: 0;
   margin: 0;
   top: 0;
-  height: 100vh;
+  height: 88vh;
+  border: 0;
 }
 
 .user-content-div {
@@ -52,7 +53,7 @@ ion-slides {
   padding: 0;
   margin: 0;
   top: 0;
-  height: 100vh;
+  height: 89vh;
 }
 
 ::-webkit-scrollbar { 
@@ -87,53 +88,59 @@ ion-slides {
   }
 }
 
-ion-header {
+.app-header {
   z-index: 2;
   border: 0;
   background: transparent;
-
-  ion-segment {
-    width: 100%;
-    height: auto;
-    margin: 0;
-    padding: 0;
-  }
-
+  display: block;
+  height: 6vh;
   ion-navbar {
-    display: block;
-
+    min-height: 6vh;
     .search-button {
       //padding-right: 4vw;
       font-size: 25px;
       padding-right: 2vw;
     }
 
-    .post-button {
+    ion-searchbar {
+      padding: 0;
+      margin: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    .camera-button {
       font-size: 25px;
       padding-right: 1.5vw;
     }
+    ion-title {
+      font-family: berkswash;
+      font-size: 100px;
+      margin: 0;
+      padding: 0;
+      text-align: start;
+    }
   }
+}
 
-  ion-searchbar {
-    padding: 0;
-    margin: 0;
-    top: 0;
-    bottom: 0;
-  }
+.post-header{
+  width: calc(90vw + 1px);
 
-  .post-input {
-    z-index: 1;
-  }
-
-  .post-cancel {
-    z-index: 2;
-    font-size: 25px;
-    color: black;
-  }
-
-  .camera-button {
-    font-size: 25px;
-    padding-right: 1.5vw;
+  .make-post {
+    width: 100%;
+    border: 2px solid grey;
+    border-top: 0;
+    //border-bottom-left-radius: 8px;
+    //border-bottom-right-radius: 8px;
+    height: 4vh;
+    .text-post-input {
+      background: white;
+    }
+    
+    .post-send {
+      font-size: 25px;
+      color: black;
+    }
   }
 }
 
@@ -193,14 +200,6 @@ ion-header {
   src: url('../assets/fonts/berkshireswash.woff2') format('woff');
   font-weight: normal;
   font-style: normal;
-}
-
-ion-title {
-  font-family: berkswash;
-  font-size: 25px;
-  margin: 0;
-  padding: 0;
-  text-align: start;
 }
 
 .text-post {

@@ -4,19 +4,35 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<ion-header class="app-header">
+  <ion-navbar color="head" no-shadow="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title *ngIf="!toggleSearch" class="page-title">{{this.title}}</ion-title>
+    <ion-searchbar *ngIf="toggleSearch" showCancelButton="true" (ionCancel)="togSearch()" (search)="searched($event)"></ion-searchbar>
+    <ion-buttons *ngIf="!toggleSearch" right>
+      <button ion-button (click)="togCamera()" class="camera-button" clear>
+        <ion-icon name="camera"></ion-icon>
+      </button>
+      <button ion-button *ngIf="!toggleSearch" (click)="togSearch()" class="search-button" clear>
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  
+</ion-header>
+
 <ion-content no-bounce>
   <ion-slides  (ionSlideWillChange)="changeWillSlide($event)" initialSlide="1">
     <ion-slide>
-        camera page
+
     </ion-slide>
 
     <ion-slide class="content-slide">
 
         <ion-split-pane when="xs">
           <ion-menu [content]="content" side="right" mode="md">
-              <ion-header>
-                hello :)
-              </ion-header>
               <ion-content no-bounce>
                 <div class="vertical-tabs">
                   <button ion-button large block clear icon-only [color]="isHome ? 'dark' : 'light'" (click)="goToHome()">
@@ -33,45 +49,20 @@
                   </button>
                 </div>
               </ion-content>
-            <ion-footer>
-              <button ion-button (click)="openSettings()" [menuClose] class="settings-button" clear>
-                <ion-icon name="settings"></ion-icon>
-              </button>
-            </ion-footer>
           </ion-menu>
         
           <ion-nav [root]="rootPage" #content main></ion-nav>
         </ion-split-pane>
 
-
-        <ion-header>
-          <ion-navbar color="head" no-shadow="true">
-            <button ion-button menuToggle>
-              <ion-icon name="menu"></ion-icon>
-            </button>
-            <ion-title *ngIf="!toggleSearch" class="page-title">{{this.title}}</ion-title>
-            <ion-searchbar *ngIf="toggleSearch && !togglePost" showCancelButton="true" (ionCancel)="togSearch()" (search)="searched($event)"></ion-searchbar>
-            <ion-buttons *ngIf="!toggleSearch" right>
-              <button ion-button (click)="togCamera()" class="camera-button" clear>
-                <ion-icon name="camera"></ion-icon>
-              </button>
-              <button ion-button (click)="togPost()" class="post-button" clear>
-                <ion-icon name="text"></ion-icon>
-              </button>
-              <button ion-button *ngIf="!toggleSearch" (click)="togSearch()" class="search-button" clear>
-                <ion-icon name="search"></ion-icon>
-              </button>
-            </ion-buttons>
-          </ion-navbar>
-
-          <ion-item *ngIf="togglePost" class="post-input">
-            <ion-input type="text" placeholder="What's up?"></ion-input>
-            <button ion-button clear item-right (click)="togPost()" class="post-cancel">
-              <ion-icon name="close"></ion-icon>
+        <ion-header class="post-header">
+          <ion-item class="make-post">
+            <ion-input type="text" placeholder="What's up?" class="text-post-input"></ion-input>
+            <button ion-button clear item-right (click)="makePost()" class="post-send">
+              <ion-icon name="md-send"></ion-icon>
             </button>
           </ion-item>
-          
         </ion-header>
+
         <ion-content class="content-div" scrollbar-y="false">
 
           <ion-refresher (ionRefresh)="doRefresh($event)">
@@ -104,19 +95,6 @@
           </ion-infinite-scroll>
 
         </ion-content>
-
-        <ion-footer>
-          <ion-segment color="light">
-            <button ion-button class="calendar-button">
-              <ion-icon name="calendar"></ion-icon>
-            </button>
-            <button ion-button class="footer-button">Kick It!</button>
-            <button ion-button class="map-button">
-              <ion-icon name="map"></ion-icon>
-            </button>
-          </ion-segment>
-        </ion-footer>
-
     </ion-slide>
 
     <ion-slide>
@@ -124,9 +102,9 @@
         <ion-card class="profileCard">
           <ion-card-header>
             <h2>{{userData.Name}}</h2>
-            <p>{{userData.Friends}}</p>
-            <p>{{userData.Acquaintances}}</p>
-            <p>{{userData.Sociality}}</p>
+            <p>Friends: {{userData.Friends}}</p>
+            <p>Acquaintances: {{userData.Acquaintances}}</p>
+            <p>Sociality: {{userData.Sociality}}</p>
           </ion-card-header>
           <ion-card-content>
 
@@ -161,3 +139,15 @@
     </ion-slide>
   </ion-slides>
 </ion-content>
+
+<ion-footer>
+  <ion-segment color="light">
+    <button ion-button class="calendar-button">
+      <ion-icon name="calendar"></ion-icon>
+    </button>
+    <button ion-button class="footer-button">Kick It!</button>
+    <button ion-button class="map-button">
+      <ion-icon name="map"></ion-icon>
+    </button>
+  </ion-segment>
+</ion-footer>

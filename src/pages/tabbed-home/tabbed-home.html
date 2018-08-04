@@ -30,6 +30,12 @@
           <ion-list>
             <ion-card *ngFor="let chat of chats" class="test-post" (click)="goToChat(chat.ChatId)">
               <ion-item class="post-header">
+                <ion-avatar item-start>
+                  <ion-icon *ngIf="chat.Type === 'community'; else eventChat" name="contacts" class="chat-icon"></ion-icon>
+                  <ng-template #eventChat>
+                    <ion-icon name="bonfire" class="chat-icon"></ion-icon>
+                  </ng-template>
+                </ion-avatar>
                 <h2 class="chat-name">{{chat.Name}}</h2>
                 <p class="chat-message">{{chat.LastMessage}}</p>
               </ion-item>
@@ -63,7 +69,7 @@
           <ion-nav [root]="rootPage" #content main></ion-nav>
         </ion-split-pane>
 
-        <ion-header class="post-header">
+        <ion-header class="make-post-header">
           <ion-item class="make-post">
             <ion-input type="text" placeholder="What's up?" class="text-post-input"></ion-input>
             <button ion-button clear item-right (click)="makePost()" class="post-send">
@@ -107,21 +113,18 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-content class="content-div">
-        <ion-card class="profileCard">
-          <ion-card-header>
+      <ion-header class="profile-header">
+        <ion-card class="profile-card">
             <h2>{{userData.Name}}</h2>
             <p>Friends: {{userData.Friends}}</p>
             <p>Acquaintances: {{userData.Acquaintances}}</p>
             <p>Sociality: {{userData.Sociality}}</p>
-          </ion-card-header>
-          <ion-card-content>
-
-          </ion-card-content>
         </ion-card>
+      </ion-header>
+      <ion-content class="content-div my-profile">
 
         <ion-list>
-          <ion-card *ngFor="let post of userData.Posts" class="text-post">
+          <ion-card *ngFor="let post of userData.Posts" class="text-post my-post">
             <ion-item class="post-header">
               <div class="post-avatar" item-start>
 

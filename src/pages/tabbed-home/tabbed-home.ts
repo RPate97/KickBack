@@ -324,17 +324,20 @@ export class TabbedHomePage {
       {
         Name: "People Drake hates less",
         LastMessage: "wow this is a pretty cool community",
-        ChatId: 32432432
+        ChatId: 32432432,
+        Type: 'community'
       },
       {
         Name: "Gucci Gang",
         LastMessage: "wow this is a pretty shitty name for a chat",
-        ChatId: 435643
+        ChatId: 435643,
+        Type: 'community'
       },
       {
         Name: "Friday beers by the river",
-        LastMessage: "so you guys thinking 5pm?",
-        ChatId: 21312
+        LastMessage: "So who's getting the beer? I'm a cheap ass",
+        ChatId: 21312,
+        Type: 'event'
       }
   ]
   displayPosts = this.homePosts;

@@ -26,7 +26,16 @@
 <ion-content no-bounce>
   <ion-slides  (ionSlideWillChange)="changeWillSlide($event)" initialSlide="1">
     <ion-slide>
-
+        <ion-content class="content-div">
+          <ion-list>
+            <ion-card *ngFor="let chat of chats" class="test-post" (click)="goToChat(chat.ChatId)">
+              <ion-item class="post-header">
+                <h2 class="chat-name">{{chat.Name}}</h2>
+                <p class="chat-message">{{chat.LastMessage}}</p>
+              </ion-item>
+            </ion-card>
+          </ion-list>
+        </ion-content>
     </ion-slide>
 
     <ion-slide class="content-slide">
@@ -63,7 +72,7 @@
           </ion-item>
         </ion-header>
 
-        <ion-content class="content-div" scrollbar-y="false">
+        <ion-content class="feed-content-div" scrollbar-y="false">
 
           <ion-refresher (ionRefresh)="doRefresh($event)">
             <ion-refresher-content></ion-refresher-content>
@@ -98,7 +107,7 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-content class="user-content-div">
+      <ion-content class="content-div">
         <ion-card class="profileCard">
           <ion-card-header>
             <h2>{{userData.Name}}</h2>

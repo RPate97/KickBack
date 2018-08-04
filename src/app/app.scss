@@ -37,7 +37,7 @@ ion-slides {
   }
 }
 
-.content-div {
+.feed-content-div {
   background: color($colors, background);
   width: calc(90vw + 1px);
   padding: 0;
@@ -47,7 +47,7 @@ ion-slides {
   border: 0;
 }
 
-.user-content-div {
+.content-div {
   background: color($colors, background);
   width: 100vw;
   padding: 0;

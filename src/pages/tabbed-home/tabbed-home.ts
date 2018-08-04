@@ -320,6 +320,23 @@ export class TabbedHomePage {
         }
     ]
   }
+  chats = [
+      {
+        Name: "People Drake hates less",
+        LastMessage: "wow this is a pretty cool community",
+        ChatId: 32432432
+      },
+      {
+        Name: "Gucci Gang",
+        LastMessage: "wow this is a pretty shitty name for a chat",
+        ChatId: 435643
+      },
+      {
+        Name: "Friday beers by the river",
+        LastMessage: "so you guys thinking 5pm?",
+        ChatId: 21312
+      }
+  ]
   displayPosts = this.homePosts;
   feedTabs: any = 'home';
   constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events) { //setup page
@@ -421,6 +438,10 @@ export class TabbedHomePage {
       console.log('Async operation has ended');
       refresher.complete();
     }, 1000);
+  }
+
+  goToChat($event) {
+    console.log($event);
   }
 
 }

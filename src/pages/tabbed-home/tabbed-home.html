@@ -28,7 +28,7 @@
     <ion-slide>
         <ion-content class="content-div">
           <ion-list>
-            <ion-card *ngFor="let chat of chats" class="test-post" (click)="goToChat(chat.ChatId)">
+            <ion-card *ngFor="let chat of chats" class="test-post" (click)="goToChat(chat)">
               <ion-item class="post-header">
                 <ion-avatar item-start>
                   <ion-icon *ngIf="chat.Type === 'community'; else eventChat" name="contacts" class="chat-icon"></ion-icon>
@@ -71,7 +71,7 @@
 
         <ion-header class="make-post-header">
           <ion-item class="make-post">
-            <ion-input type="text" placeholder="What's up?" class="text-post-input"></ion-input>
+            <ion-input type="text" placeholder="What's up?" class="text-post-input" [(ngModel)]="textPostContext"></ion-input>
             <button ion-button clear item-right (click)="makePost()" class="post-send">
               <ion-icon name="md-send"></ion-icon>
             </button>
@@ -157,7 +157,7 @@
     <button ion-button class="calendar-button">
       <ion-icon name="calendar"></ion-icon>
     </button>
-    <button ion-button class="footer-button">Kick It!</button>
+    <button ion-button class="footer-button">Kick It Off!</button>
     <button ion-button class="map-button">
       <ion-icon name="map"></ion-icon>
     </button>

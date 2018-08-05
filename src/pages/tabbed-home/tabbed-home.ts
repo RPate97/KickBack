@@ -1,6 +1,7 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { Events } from 'ionic-angular';
+import { CommunityPage } from '../community/community';
 
 /**
  * Generated class for the TabbedHomePage page.
@@ -25,6 +26,7 @@ export class TabbedHomePage {
   isNearby = false;
   isWorldwide = false;
   stringSave: any = 'KickBack';
+  public textPostContext;
   homePosts = [ //create some test content will need to be replaced with server content
       {
           type: 'text',
@@ -402,8 +404,51 @@ export class TabbedHomePage {
       this.toggleSearch = !this.toggleSearch; //toggle the search bar visible invisible 
   }
 
-  makePost(){
-      console.log("posting");
+  getLovelyTime(){
+    let dateObj = new Date();
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let dayEnds = ["st", "nd", "rd"];
+    let endNum = dateObj.getDay() % 10 + 1;
+    let correctEnd;
+    let hour = dateObj.getHours();
+    let hourArea;
+    if(hour > 12){
+      hourArea = "pm";
+      hour -= 12;
+    }else {
+        hourArea = "am";
+    }
+    if(hour == 0){
+      hour = 12;
+    }
+    let minute = dateObj.getMinutes();
+    let time = hour + ":" + minute + hourArea;
+    if(endNum < 4 && endNum != 0){
+      correctEnd = dayEnds[endNum];
+    }else {
+        correctEnd = "th";
+    }
+    return time + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getDay() + correctEnd + ', ' + dateObj.getFullYear();
+  }
+
+  //handles clientside making posts
+  makePost(){ //NEED TO CHECK IF THIS IS SECURE WOULDN'T WANT ANY HTML RUNNING IN HERE...
+      let newTextPost = {
+          type: 'text',
+          Name: this.userData.Name,
+          Context: this.textPostContext,
+          Date: this.getLovelyTime()
+      }
+      console.log(newTextPost);
+      this.homePosts.unshift(newTextPost);
+      this.userData.Posts.unshift(newTextPost);
+      this.textPostContext = "";
+      this.sendPostToServer(newTextPost);
+  }
+
+  sendPostToServer(post){ //temp function for handling adding the post to the backend datastore
+    console.log("sending " + post + " to server...");
+    console.log("backend not implemented yet...");
   }
 
   togCamera(){
@@ -443,8 +488,10 @@ export class TabbedHomePage {
     }, 1000);
   }
 
-  goToChat($event) {
-    console.log($event);
+  goToChat(chat) {
+    this.navCtrl.push(CommunityPage, {
+        chatInfo: chat
+    });
   }
 
 }

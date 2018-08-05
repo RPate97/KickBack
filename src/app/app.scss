@@ -60,6 +60,10 @@ ion-slides {
   height: 88vh !important;
 }
 
+.content-div.community {
+  height: 100vh !important;;
+}
+
 ::-webkit-scrollbar { 
   display:none !important; 
 }
@@ -196,6 +200,10 @@ ion-slides {
     height: fill;
     font-size: 25px;
     border-radius: 0px;
+  }
+
+  .footer-button.community-footer-button {
+    width: 100% !important;
   }
 }
 

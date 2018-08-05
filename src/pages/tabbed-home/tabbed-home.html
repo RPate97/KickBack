@@ -10,7 +10,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title *ngIf="!toggleSearch" class="page-title">{{this.title}}</ion-title>
-    <ion-searchbar *ngIf="toggleSearch" showCancelButton="true" (ionCancel)="togSearch()" (search)="searched($event)"></ion-searchbar>
+    <ion-searchbar *ngIf="toggleSearch" showCancelButton="true" (ionCancel)="togSearch()" (search)="searched($event)" class="search-bar"></ion-searchbar>
     <ion-buttons *ngIf="!toggleSearch" right>
       <button ion-button (click)="togCamera()" class="camera-button" clear>
         <ion-icon name="camera"></ion-icon>
@@ -96,6 +96,7 @@
                   <ion-icon name="more"></ion-icon>
                 </button>
               </ion-item>
+              <img *ngIf="post.imageSource" class="post-photo" src="{{post.imageSource}}">
               <ion-card-content class="post-context">
                 {{post.Context}}
               </ion-card-content>

@@ -2,6 +2,7 @@
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { CommunityPage } from '../community/community';
+import { text } from '../../../node_modules/@angular/core/src/render3/instructions';
 
 /**
  * Generated class for the TabbedHomePage page.
@@ -29,39 +30,34 @@ export class TabbedHomePage {
   public textPostContext;
   homePosts = [ //create some test content will need to be replaced with server content
       {
-          type: 'text',
           Name: 'Ryan',
           Context: 'This is the home feed',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'photo',
           Name: 'Joe',
-          Context: 'This shouldnt work',
+          Context: 'This is a photo post',
           Date: 'July 16th, 2018',
-          imageSource: 'imgs/testPhoto.jpeg'
+          imageSource: '../assets/imgs/testPhoto.jpeg'
       },
       {
-          type: 'text',
           Name: 'Rohan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-
+          Context: 'This is an event post',
+          Date: 'July 16th, 2018',
+          imageSource: '../assets/imgs/testPhoto.jpeg',
+          EventDate: '5pm Auguest 18th, 2018'
       },      
       {
-          type: 'text',
           Name: 'Emelia',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Ryan',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Joe',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
@@ -73,57 +69,48 @@ export class TabbedHomePage {
           Date: 'July 16th, 2018'
       },      
       {
-          type: 'text',
           Name: 'Emelia',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Ryan',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Joe',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Rohan',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
 
       },      
       {
-          type: 'text',
           Name: 'Emelia',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Ryan',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Joe',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
       },
       {
-          type: 'text',
           Name: 'Rohan',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
 
       },      
       {
-          type: 'text',
           Name: 'Emelia',
           Context: 'This might actually work',
           Date: 'July 16th, 2018'
@@ -261,61 +248,51 @@ export class TabbedHomePage {
     Sociality: 7543,
     Posts: [
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },      
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },      
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
         },
         {
-            type: 'text',
             Name: 'Ryan',
             Context: 'This might actually work',
             Date: 'July 16th, 2018'
@@ -422,28 +399,39 @@ export class TabbedHomePage {
       hour = 12;
     }
     let minute = dateObj.getMinutes();
-    let time = hour + ":" + minute + hourArea;
+    let realMinute;
+    if(minute < 10){
+        realMinute = "0" + minute.toString();
+        console.log(realMinute);
+    }else{
+        realMinute = minute;
+    }
+    let time = hour + ":" + realMinute + hourArea;
     if(endNum < 4 && endNum != 0){
       correctEnd = dayEnds[endNum];
     }else {
         correctEnd = "th";
     }
-    return time + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getDay() + correctEnd + ', ' + dateObj.getFullYear();
+    return time + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getDay().toString() + correctEnd + ', ' + dateObj.getFullYear();
   }
 
   //handles clientside making posts
   makePost(){ //NEED TO CHECK IF THIS IS SECURE WOULDN'T WANT ANY HTML RUNNING IN HERE...
-      let newTextPost = {
-          type: 'text',
-          Name: this.userData.Name,
-          Context: this.textPostContext,
-          Date: this.getLovelyTime()
-      }
-      console.log(newTextPost);
-      this.homePosts.unshift(newTextPost);
-      this.userData.Posts.unshift(newTextPost);
-      this.textPostContext = "";
-      this.sendPostToServer(newTextPost);
+    if(this.textPostContext != undefined && this.textPostContext != ""){
+    let newTextPost = {
+        type: 'text',
+        Name: this.userData.Name,
+        Context: this.textPostContext,
+        Date: this.getLovelyTime()
+    }
+    console.log(newTextPost);
+    this.homePosts.unshift(newTextPost);
+    this.userData.Posts.unshift(newTextPost);
+    this.textPostContext = "";
+    this.sendPostToServer(newTextPost);
+    }else{
+        console.log("cant make a post with not content");
+    }
   }
 
   sendPostToServer(post){ //temp function for handling adding the post to the backend datastore

@@ -104,17 +104,16 @@ ion-slides {
   height: 6vh;
   ion-navbar {
     min-height: 6vh;
+    max-height: 6vh;
+    padding: 0;
     .search-button {
       //padding-right: 4vw;
       font-size: 25px;
       padding-right: 2vw;
     }
 
-    ion-searchbar {
+    .search-bar {
       padding: 0;
-      margin: 0;
-      top: 0;
-      bottom: 0;
     }
 
     .camera-button {
@@ -263,6 +262,13 @@ ion-slides {
       padding-right: 1.5vw;
       color: color($colors, background);
     }
+  }
+
+  .post-photo {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: 215px;
   }
 
   .post-context {

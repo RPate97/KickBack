@@ -12,7 +12,7 @@ import { TabbedHomePageModule } from '../pages/tabbed-home/tabbed-home.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { Camera } from '@ionic-native/camera';
 import { DynamoDB } from '../providers/aws.dynamodb';
 
 import Amplify from 'aws-amplify';
@@ -44,13 +44,15 @@ Amplify.configure(aws_exports);
     LoginPage,
     SignupPage,
     ConfirmSignInPage,
-    ConfirmSignUpPage
+    ConfirmSignUpPage,
+    AccountPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DynamoDB
+    DynamoDB, 
+    Camera
   ]
 })
 export class AppModule {}

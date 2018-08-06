@@ -37,13 +37,13 @@ export class TabbedHomePage {
           Name: 'Joe',
           Context: 'This is a photo post',
           Date: 'July 16th, 2018',
-          imageSource: '../assets/imgs/testPhoto.jpeg'
+          imageSource: 'assets/imgs/testPhoto.jpeg'
       },
       {
           Name: 'Rohan',
           Context: 'This is an event post',
           Date: 'July 16th, 2018',
-          imageSource: '../assets/imgs/testPhoto.jpeg',
+          imageSource: 'assets/imgs/testPhoto.jpeg',
           EventDate: '5pm Auguest 18th, 2018'
       },      
       {

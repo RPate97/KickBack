@@ -245,6 +245,7 @@ export class TabbedHomePage {
     Acquaintances: 25,
     Friends: 53,
     Sociality: 7543,
+    ID: "1",
     Posts: [
         {
             Name: 'Ryan',
@@ -487,8 +488,8 @@ export class TabbedHomePage {
     });
   }
 
-  goToMakeEvent(){
-    this.navCtrl.push("MakeEventPage", {
+  goToPlayKickBack(){
+    this.navCtrl.push("PlayKickBackPage", {
         userData: this.userData
     });
   }

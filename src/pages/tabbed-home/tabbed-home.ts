@@ -1,7 +1,6 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { Events } from 'ionic-angular';
-import { CommunityPage } from '../community/community';
 import { text } from '../../../node_modules/@angular/core/src/render3/instructions';
 
 /**
@@ -477,9 +476,26 @@ export class TabbedHomePage {
   }
 
   goToChat(chat) {
-    this.navCtrl.push(CommunityPage, {
+    this.navCtrl.push("CommunityPage", {
         chatInfo: chat
     });
   }
 
+  goToCamera(){
+    this.navCtrl.push("CameraPostPage", {
+        userData: this.userData
+    });
+  }
+
+  goToMakeEvent(){
+    this.navCtrl.push("MakeEventPage", {
+        userData: this.userData
+    });
+  }
+
+  goToCalendar(){
+    this.navCtrl.push("CalendarPage", {
+        userData: this.userData
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { LoadingController, NavController } from 'ionic-angular';
+import { LoadingController, NavController, IonicPage } from 'ionic-angular';
 import { Auth, Storage, Logger } from 'aws-amplify';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';

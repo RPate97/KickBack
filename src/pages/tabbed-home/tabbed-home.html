@@ -12,7 +12,10 @@
     <ion-title *ngIf="!toggleSearch" class="page-title">{{this.title}}</ion-title>
     <ion-searchbar *ngIf="toggleSearch" showCancelButton="true" (ionCancel)="togSearch()" (search)="searched($event)" class="search-bar"></ion-searchbar>
     <ion-buttons *ngIf="!toggleSearch" right>
-      <button ion-button (click)="togCamera()" class="camera-button" clear>
+      <button ion-button (click)="goToCalendar()" class="calendar-button">
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+      <button ion-button (click)="goToCamera()" class="camera-button" clear>
         <ion-icon name="camera"></ion-icon>
       </button>
       <button ion-button *ngIf="!toggleSearch" (click)="togSearch()" class="search-button" clear>
@@ -153,14 +156,6 @@
   </ion-slides>
 </ion-content>
 
-<ion-footer>
-  <ion-segment color="light">
-    <button ion-button class="calendar-button">
-      <ion-icon name="calendar"></ion-icon>
-    </button>
-    <button ion-button class="footer-button">Kick It Off!</button>
-    <button ion-button class="map-button">
-      <ion-icon name="map"></ion-icon>
-    </button>
-  </ion-segment>
+<ion-footer no-border>
+  <button ion-button (click)="goToMakeEvent()" class="footer-button">Kick It Off!</button>
 </ion-footer>

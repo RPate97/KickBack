@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, IonicPage } from 'ionic-angular';
 import { Auth, Logger } from 'aws-amplify';
 
 import { TabbedHomePage } from '../tabbed-home/tabbed-home';

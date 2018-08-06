@@ -30,7 +30,8 @@ ion-slides {
   display: flex;
   flex-direction: column;
   justify-content: top;
-  background: color($colors, head);
+  //background: color($colors, head);
+  background: linear-gradient(to bottom, color($colors, head), color($colors, background));
   button {
     font-size: 4vw;
     height: 8vh;
@@ -61,6 +62,10 @@ ion-slides {
 }
 
 .content-div.community {
+  height: 100vh !important;;
+}
+
+.content-div.camera {
   height: 100vh !important;;
 }
 
@@ -120,6 +125,12 @@ ion-slides {
       font-size: 25px;
       padding-right: 1.5vw;
     }
+
+    .calendar-button {
+      padding-right: 1.5vw;
+      font-size: 25px;
+    }
+
     ion-title {
       font-family: berkswash;
       font-size: 100px;
@@ -156,15 +167,21 @@ ion-slides {
   bottom: 0;
   position: absolute;
   z-index: 2;
+  background-color: transparent;
 
   .footer-button {
-    background: color($colors, head);
-    width: 60%;
+    background: color($colors, callToAction);
+    border-width: 1px;
+    border-style: solid;
+    border-color: color($colors, background);
+    border-radius: 0;
+    //background: linear-gradient(to right, color($colors, background), color($colors, callToAction), color($colors, background));
+    width: 100%;
     font-size: 25px;
     text-align: center;
     font-family: berkswash;
     text-transform: none;
-    color: white;
+    color: black;
     height: auto;
     bottom: 0;
     position: absolute;
@@ -174,35 +191,6 @@ ion-slides {
     padding: 0;
     margin: 0;
     z-index: 3;
-    border-radius: 0;
-  }
-
-  .map-button {
-    position: relative;
-    width: 20%;
-    padding: 0;
-    margin: 0;
-    margin-left: 60%;
-    bottom: 0;
-    height: fill;
-    z-index: 2;
-    font-size: 25px;
-    border-radius: 0px;
-  }
-
-  .calendar-button {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    width: 20%;
-    bottom: 0;
-    height: fill;
-    font-size: 25px;
-    border-radius: 0px;
-  }
-
-  .footer-button.community-footer-button {
-    width: 100% !important;
   }
 }
 
@@ -219,7 +207,6 @@ ion-slides {
   height: auto;
   margin: 0;
   padding: 0;
-  margin-bottom: 1px;
   background: white;
   text-align: left;
   display: inline-block;
@@ -268,7 +255,7 @@ ion-slides {
     width: 100%;
     padding: 0;
     margin: 0;
-    height: 215px;
+    size: cover;
   }
 
   .post-context {

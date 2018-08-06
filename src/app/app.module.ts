@@ -9,7 +9,6 @@ import { ConfirmSignInPage } from '../pages/confirmSignIn/confirmSignIn';
 import { ConfirmSignUpPage } from '../pages/confirmSignUp/confirmSignUp';
 import { AccountPage } from '../pages/account/account';
 import { TabbedHomePageModule } from '../pages/tabbed-home/tabbed-home.module';
-import { CommunityPage } from '../pages/community/community';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -28,8 +27,7 @@ Amplify.configure(aws_exports);
     SignupPage,
     ConfirmSignInPage,
     ConfirmSignUpPage,
-    AccountPage,
-    CommunityPage
+    AccountPage
   ],
   imports: [
     BrowserModule,
@@ -46,8 +44,7 @@ Amplify.configure(aws_exports);
     LoginPage,
     SignupPage,
     ConfirmSignInPage,
-    ConfirmSignUpPage,
-    CommunityPage
+    ConfirmSignUpPage
   ],
   providers: [
     StatusBar,

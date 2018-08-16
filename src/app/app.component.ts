@@ -68,6 +68,6 @@ export class MyApp {
 
   logout() {
     Auth.signOut()
-      .then(() => this.nav.setRoot("LoginPage"));
-  }
+      .then(() => this.nav.setRoot(LoginPage));
+    }
 }

@@ -12,8 +12,11 @@ import { TabbedHomePageModule } from '../pages/tabbed-home/tabbed-home.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Camera } from '@ionic-native/camera';
 import { DynamoDB } from '../providers/aws.dynamodb';
+
+//native plugins
+import { Geolocation } from '@ionic-native/geolocation';
+import { Camera } from '@ionic-native/camera';
 
 import Amplify from 'aws-amplify';
 const aws_exports = require('../aws-exports').default;
@@ -52,7 +55,8 @@ Amplify.configure(aws_exports);
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DynamoDB, 
-    Camera
+    Camera,
+    Geolocation
   ]
 })
 export class AppModule {}

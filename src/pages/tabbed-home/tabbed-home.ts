@@ -1,7 +1,7 @@
 ﻿import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { Events } from 'ionic-angular';
-import { text } from '../../../node_modules/@angular/core/src/render3/instructions';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the TabbedHomePage page.
@@ -321,7 +321,7 @@ export class TabbedHomePage {
   ]
   displayPosts = this.homePosts;
   feedTabs: any = 'home';
-  constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events) { //setup page
+  constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, private geolocation: Geolocation) { //setup page
   }
 
   goToHome(){
@@ -432,6 +432,14 @@ export class TabbedHomePage {
     }else{
         console.log("cant make a post with not content");
     }
+
+    /*this.geolocation.getCurrentPosition().then((resp) => {
+        // resp.coords.latitude
+        // resp.coords.longitude
+        console.log(resp.coords);
+        }).catch((error) => {
+        console.log('Error getting location', error);
+    });*/
   }
 
   sendPostToServer(post){ //temp function for handling adding the post to the backend datastore

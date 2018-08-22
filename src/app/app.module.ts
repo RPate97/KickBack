@@ -13,6 +13,7 @@ import { TabbedHomePageModule } from '../pages/tabbed-home/tabbed-home.module';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DynamoDB } from '../providers/aws.dynamodb';
+import { Http } from '@angular/http';
 
 //native plugins
 import { Geolocation } from '@ionic-native/geolocation';
@@ -56,7 +57,8 @@ Amplify.configure(aws_exports);
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DynamoDB, 
     Camera,
-    Geolocation
+    Http,
+    Geolocation,
   ]
 })
 export class AppModule {}

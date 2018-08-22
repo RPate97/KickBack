@@ -2,6 +2,42 @@
 apps:
   web: !com.amazonaws.mobilehub.v0.AppDO {}
 features:
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
+    components:
+      mongoAPI: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: mongoAPI
+          requires-signin: true
+          sdk-generation-stage-name: Development
+        paths:
+          /publicPosts: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/mongoAPI-20180819161234.zip
+            description: 'Handler for calls to resource path : /publicPosts/{proxy+}'
+            enableCORS: true
+            environment:
+              MONGO_URI: 'mongodb+srv://admin:z0VTqUbYHUiXRfFPTGbA@testingcluster-43bi2.mongodb.net/test?retryWrites=true'
+            handler: lambda.handler
+            hashcode: h+vlMciu6/Rf+uzyf1qqixjxO/+XOgir335zTGzmwSM=
+            memorySize: '128'
+            modified: '2018-08-20T00:07:31.243+0000'
+            name: mongoAPI
+            runtime: nodejs6.10
+            timeout: '3'
+            version: dd4q3B6M7f8IRC3EnqmRLqSULJQmFhhZ
+          '/publicPosts/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/mongoAPI-20180819161234.zip
+            description: 'Handler for calls to resource path : /publicPosts/{proxy+}'
+            enableCORS: true
+            environment:
+              MONGO_URI: 'mongodb+srv://admin:z0VTqUbYHUiXRfFPTGbA@testingcluster-43bi2.mongodb.net/test?retryWrites=true'
+            handler: lambda.handler
+            hashcode: h+vlMciu6/Rf+uzyf1qqixjxO/+XOgir335zTGzmwSM=
+            memorySize: '128'
+            modified: '2018-08-20T00:07:31.243+0000'
+            name: mongoAPI
+            runtime: nodejs6.10
+            timeout: '3'
+            version: .gL2tWke9vqXtm0zafc373rfK6xUCiDq
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true

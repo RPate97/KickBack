@@ -2,6 +2,7 @@
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { API } from 'aws-amplify';
 
 /**
  * Generated class for the TabbedHomePage page.
@@ -17,103 +18,19 @@ import { Geolocation } from '@ionic-native/geolocation';
 })
 export class TabbedHomePage {
   @ViewChild('pageSlider') pageSlider: Slides; //setup View
-  
+
+
   toggleSearch: any = false; //set search toggle to default false
   title: any = 'KickBack'; //set title to kickback default
   currentPage: any = 1;
   isHome = true;
   isGoing = false;
-  isNearby = false;
   isWorldwide = false;
   stringSave: any = 'KickBack';
   public textPostContext;
+  userLoc;
   homePosts = [ //create some test content will need to be replaced with server content
-      {
-          Name: 'Ryan',
-          Context: 'This is the home feed',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Joe',
-          Context: 'This is a photo post',
-          Date: 'July 16th, 2018',
-          imageSource: 'assets/imgs/testPhoto.jpeg'
-      },
-      {
-          Name: 'Rohan',
-          Context: 'This is an event post',
-          Date: 'July 16th, 2018',
-          imageSource: 'assets/imgs/testPhoto.jpeg',
-          EventDate: '5pm Auguest 18th, 2018'
-      },      
-      {
-          Name: 'Emelia',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Ryan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Joe',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          type: 'text',
-          Name: 'Rohan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },      
-      {
-          Name: 'Emelia',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Ryan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Joe',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Rohan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
 
-      },      
-      {
-          Name: 'Emelia',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Ryan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Joe',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      },
-      {
-          Name: 'Rohan',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-
-      },      
-      {
-          Name: 'Emelia',
-          Context: 'This might actually work',
-          Date: 'July 16th, 2018'
-      }
   ];
 
   goingOnNowPosts = [ //content for area feed
@@ -137,57 +54,6 @@ export class TabbedHomePage {
           Name: 'Emelia',
           Context: 'This might actually work'
       }
-  ]
-
-  popularNearbyPosts = [ //content for event feed
-    {
-        Name: 'Ryan',
-        Context: 'This is the popular nearby feed'
-    },
-    {
-        Name: 'Joe',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Rohan',
-        Context: 'This might actually work'
-    },      
-    {
-        Name: 'Emelia',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Ryan',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Joe',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Rohan',
-        Context: 'This might actually work'
-    },      
-    {
-        Name: 'Emelia',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Ryan',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Joe',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Rohan',
-        Context: 'This might actually work'
-    },      
-    {
-        Name: 'Emelia',
-        Context: 'This might actually work'
-    }
   ]
 
   popularWorldwidePosts = [ //content for event feed
@@ -330,7 +196,6 @@ export class TabbedHomePage {
     this.displayPosts = this.homePosts as any[];
     this.isHome = true;
     this.isGoing = false;
-    this.isNearby = false;
     this.isWorldwide = false;
   }
   goToGoingOn(){
@@ -339,16 +204,6 @@ export class TabbedHomePage {
     this.displayPosts = this.goingOnNowPosts as any[];
     this.isHome = false;
     this.isGoing = true;
-    this.isNearby = false;
-    this.isWorldwide = false;
-  }
-  goToNearby(){
-    console.log("loading popular nearby...");
-    this.title = 'Nearby';
-    this.displayPosts = this.popularNearbyPosts as any[];
-    this.isHome = false;
-    this.isGoing = false;
-    this.isNearby = true;
     this.isWorldwide = false;
   }
   goToWorldwide(){
@@ -357,11 +212,11 @@ export class TabbedHomePage {
     this.displayPosts = this.popularWorldwidePosts as any[];
     this.isHome = false;
     this.isGoing = false;
-    this.isNearby = false;
     this.isWorldwide = true;
   }
 
   ionViewDidLoad() { //on finished loading begin rendering event/area feed
+    this.getPosts("home", 0);
   }
 
   changeWillSlide($event) { //handle slides setup on event
@@ -402,7 +257,6 @@ export class TabbedHomePage {
     let realMinute;
     if(minute < 10){
         realMinute = "0" + minute.toString();
-        console.log(realMinute);
     }else{
         realMinute = minute;
     }
@@ -418,34 +272,76 @@ export class TabbedHomePage {
   //handles clientside making posts
   makePost(){ //NEED TO CHECK IF THIS IS SECURE WOULDN'T WANT ANY HTML RUNNING IN HERE...
     if(this.textPostContext != undefined && this.textPostContext != ""){
-    let newTextPost = {
-        type: 'text',
-        Name: this.userData.Name,
-        Context: this.textPostContext,
-        Date: this.getLovelyTime()
-    }
-    console.log(newTextPost);
-    this.homePosts.unshift(newTextPost);
-    this.userData.Posts.unshift(newTextPost);
-    this.textPostContext = "";
-    this.sendPostToServer(newTextPost);
+        let newTextPost = {
+            type: 'text',
+            Name: this.userData.Name,
+            Context: this.textPostContext,
+            Date: this.getLovelyTime(),
+            location: {
+                type: "Point",
+                coordinates: [0,0]
+            },
+            score: 0,
+        }
+        this.homePosts.unshift(newTextPost);
+        this.userData.Posts.unshift(newTextPost);
+        this.textPostContext = "";
+        this.geolocation.getCurrentPosition().then((resp) => {
+            newTextPost.location.coordinates = [resp.coords.longitude, resp.coords.latitude];
+            this.sendPostToServer(newTextPost);
+        }).catch((error) => {
+            console.log('Error getting location', error);
+        });
     }else{
         console.log("cant make a post with not content");
     }
-
-    /*this.geolocation.getCurrentPosition().then((resp) => {
-        // resp.coords.latitude
-        // resp.coords.longitude
-        console.log(resp.coords);
-        }).catch((error) => {
-        console.log('Error getting location', error);
-    });*/
   }
 
   sendPostToServer(post){ //temp function for handling adding the post to the backend datastore
-    console.log("sending " + post + " to server...");
-    console.log("backend not implemented yet...");
+    let apiName = 'mongoAPI'; //set api name
+    let path = '/publicPosts'; //set api gateway url
+    let options = { //set options
+        body: post
+    }
+    console.log(options);
+    API.post(apiName, path, options).then(response => { //open post request
+        console.log(response); //log success with proof
+    }).catch(error => {
+        //error code
+        console.log(error); //log error
+    });
   }
+
+    getPosts(feedName, distance){
+        let apiName = 'mongoAPI'; //set api name
+        let path = '/publicPosts/getNearby'; //set api gateway url
+        let options = { //setup options framework
+            body: {
+                coords: [0, 0],
+                feed: feedName,
+                lastDist: distance
+            }
+        }
+        this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+            options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
+            API.post(apiName, path, options).then(response => { //open post request
+                console.log(response); //log success with proof
+                this.homePosts = response.body;
+                if(options.body.feed == "home"){
+                    this.goToHome();
+                }else if(options.body.feed == "events"){
+                    this.goToGoingOn();
+                }else if(options.body.feed == "world"){
+                    this.goToWorldwide();
+                }
+            }).catch(error => {
+                //error code
+                console.log(error); //log error
+            });
+        }).catch((error) => {
+            console.log('Error getting location', error); //log geolocation error
+        });
+    }
 
   togCamera(){
       //this.toggleCamera = !this.toggleCamera;

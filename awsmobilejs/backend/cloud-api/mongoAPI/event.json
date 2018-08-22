@@ -1,0 +1,14 @@
+{
+    "path": "/publicPost",
+    "Method": "POST",
+    "body": {
+        "type": "text",
+        "Name": "Ryan",
+        "Context": "Hello World!",
+        "Date": "Aug 19th, 2018",
+        "location": {
+            "type": "Point",
+            "coordinates": "[79.132543], [126.439284]"
+        }
+    }
+}

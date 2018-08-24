@@ -86,13 +86,43 @@ app.post('/publicPosts/getNearby', function(req, res){
         {
             $geoNear: {
                 near: {type: "Point", coordinates: req.body.coords },
-                minDistance: req.body.lastDist,
                 maxDistance: 20000,
                 spherical: true,
                 distanceField: "distance",
                 distanceMultiplier: 1/1609.34,
                 num: 10
             }
+        }
+    ]).toArray((err, docs) => {
+        if(err){
+            console.error(err);
+        }else{
+            res.json({success: 'successfully pulled nearby posts', body: docs})
+        }
+    });
+});
+
+app.post('/publicPosts/getSortedNearby', function(req, res) {
+    var postCollection = cachedDb.collection('publicPosts');
+
+    postCollection.aggregate([
+        {
+            $geoNear: { 
+                near: { type: "Point", coordinates: req.body.coords }, 
+                maxDistance: 20000, //set distance to 20000 meters
+                spherical: true, //search in a spherical area
+                distanceField: "distance",
+                distanceMultiplier: 1/1609.34, //convert distance to miles
+                //num: 10 remove to get all
+            }
+        },
+        {
+            $sort: {
+                score: -1
+            }
+        },
+        {
+            $limit: 10
         }
     ]).toArray((err, docs) => {
         if(err){

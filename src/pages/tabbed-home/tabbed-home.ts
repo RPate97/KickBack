@@ -216,7 +216,8 @@ export class TabbedHomePage {
   }
 
   ionViewDidLoad() { //on finished loading begin rendering event/area feed
-    this.getPosts("home", 0);
+    //this.getPosts("home");
+    this.getPostsByScore("home");
   }
 
   changeWillSlide($event) { //handle slides setup on event
@@ -306,20 +307,49 @@ export class TabbedHomePage {
     console.log(options);
     API.post(apiName, path, options).then(response => { //open post request
         console.log(response); //log success with proof
+        return true;
     }).catch(error => {
         //error code
         console.log(error); //log error
+        return false;
     });
   }
+    getCoord(top, bottom, dec){
+        return (Math.random() * (top - bottom) + bottom).toFixed(dec) * 1;
+    }
 
-    getPosts(feedName, distance){
+    generatePosts(num){
+        let names = ['John', 'Joe', 'Joanna', 'Jamie', 'Johnathan', 'Alexander', 'Alejando', 'Emelia', 'Rohan'];
+        for (let x = 0; x <= num; x++){
+            let name_num = Math.floor(Math.random()*Math.floor(9));
+            let date = new Date();
+            let time = date.getTime();;
+            let post = {
+                type: 'text',
+                Name: names[name_num],
+                Context: 'text post please ignore',
+                Date: this.getLovelyTime(),
+                location: {
+                    type: "Point",
+                    coordinates: [this.getCoord(-123, -124, 3), this.getCoord(45, 44, 3)]
+                },
+                score: Math.floor(Math.random()*Math.floor(200)),
+                timeStamp: time
+            }
+            let did_work = this.sendPostToServer(post);
+            if (!did_work){
+                break;
+            }
+        }
+    }
+
+    getPosts(feedName){
         let apiName = 'mongoAPI'; //set api name
         let path = '/publicPosts/getNearby'; //set api gateway url
         let options = { //setup options framework
             body: {
                 coords: [0, 0],
-                feed: feedName,
-                lastDist: distance
+                feed: feedName
             }
         }
         this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
@@ -327,13 +357,31 @@ export class TabbedHomePage {
             API.post(apiName, path, options).then(response => { //open post request
                 console.log(response); //log success with proof
                 this.homePosts = response.body;
-                if(options.body.feed == "home"){
-                    this.goToHome();
-                }else if(options.body.feed == "events"){
-                    this.goToGoingOn();
-                }else if(options.body.feed == "world"){
-                    this.goToWorldwide();
-                }
+                this.goToHome();
+            }).catch(error => {
+                //error code
+                console.log(error); //log error
+            });
+        }).catch((error) => {
+            console.log('Error getting location', error); //log geolocation error
+        });
+    }
+
+    getPostsByScore(feedName){
+        let apiName = 'mongoAPI'; //set api name
+        let path = '/publicPosts/getSortedNearby'; //set api gateway url
+        let options = { //setup options framework
+            body: {
+                coords: [0, 0],
+                feed: feedName
+            }
+        }
+        this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+            options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
+            API.post(apiName, path, options).then(response => { //open post request
+                console.log(response); //log success with proof
+                this.homePosts = response.body;
+                this.goToHome();
             }).catch(error => {
                 //error code
                 console.log(error); //log error

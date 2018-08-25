@@ -28,13 +28,14 @@ export class TabbedHomePage {
   isWorldwide = false;
   stringSave: any = 'KickBack';
   public textPostContext;
-  userLoc;
+  currentFeed = "home";
+
   homePosts = [ //create some test content will need to be replaced with server content
 
   ];
 
   goingOnNowPosts = [ //content for area feed
-      {
+      /*{
           Name: 'Emelia',
           Context: 'This this is the going on now feed'
       },
@@ -53,11 +54,11 @@ export class TabbedHomePage {
       {
           Name: 'Emelia',
           Context: 'This might actually work'
-      }
+      }*/
   ]
 
   popularWorldwidePosts = [ //content for event feed
-    {
+    /*{
         Name: 'Ryan',
         Context: 'This is the popular worldwide feed'
     },
@@ -104,7 +105,7 @@ export class TabbedHomePage {
     {
         Name: 'Emelia',
         Context: 'This might actually work'
-    }
+    }*/
   ]
   userData = {
     Name: "Ryan",
@@ -191,33 +192,51 @@ export class TabbedHomePage {
   }
 
   goToHome(){
-    console.log("loading home...");
+    //console.log("loading home...");
     this.title = 'KickBack';
     this.displayPosts = this.homePosts as any[];
     this.isHome = true;
     this.isGoing = false;
     this.isWorldwide = false;
+    this.currentFeed = "home";
+    /*if(this.homePosts.length < 10){
+        this.getPostsByScore(this.currentFeed);
+    }*/
   }
   goToGoingOn(){
-    console.log("loading going on now...");
+    //console.log("loading going on now...");
     this.title = 'Going on Now';
     this.displayPosts = this.goingOnNowPosts as any[];
     this.isHome = false;
     this.isGoing = true;
     this.isWorldwide = false;
+    this.currentFeed = "events";
+    console.log("loading events");
+    /*if(this.goingOnNowPosts.length < 10){
+        this.getPostsByScore(this.currentFeed);
+    }*/
+    console.log("done loading events");
   }
   goToWorldwide(){
-    console.log("loading popular worldwide...");
+    //console.log("loading popular worldwide...");
     this.title = 'Worldwide';
     this.displayPosts = this.popularWorldwidePosts as any[];
     this.isHome = false;
     this.isGoing = false;
     this.isWorldwide = true;
+    this.currentFeed = "world"
+    console.log("done loading popular");
+    /*if(this.popularWorldwidePosts.length < 10){
+        this.getPostsByScore(this.currentFeed);
+    }*/
+    console.log("done loading popular");
   }
 
   ionViewDidLoad() { //on finished loading begin rendering event/area feed
     //this.getPosts("home");
-    this.getPostsByScore("home");
+    this.getPostsByScore(this.currentFeed);
+    this.getPostsByScore("events");
+    this.getPostsByScore("world");
   }
 
   changeWillSlide($event) { //handle slides setup on event
@@ -331,7 +350,7 @@ export class TabbedHomePage {
                 Date: this.getLovelyTime(),
                 location: {
                     type: "Point",
-                    coordinates: [this.getCoord(-123, -124, 3), this.getCoord(45, 44, 3)]
+                    coordinates: [this.getCoord(-122, -125, 3), this.getCoord(46, 43, 3)]
                 },
                 score: Math.floor(Math.random()*Math.floor(200)),
                 timeStamp: time
@@ -343,7 +362,7 @@ export class TabbedHomePage {
         }
     }
 
-    getPosts(feedName){
+    /*getPosts(feedName){
         let apiName = 'mongoAPI'; //set api name
         let path = '/publicPosts/getNearby'; //set api gateway url
         let options = { //setup options framework
@@ -365,23 +384,34 @@ export class TabbedHomePage {
         }).catch((error) => {
             console.log('Error getting location', error); //log geolocation error
         });
-    }
+    }*/
 
     getPostsByScore(feedName){
+        console.log("hello");
+        let s_distance = 10000;
         let apiName = 'mongoAPI'; //set api name
         let path = '/publicPosts/getSortedNearby'; //set api gateway url
         let options = { //setup options framework
             body: {
                 coords: [0, 0],
-                feed: feedName
+                feed: feedName, 
+                seachDistance: s_distance,
+                lastScore: -1,
             }
         }
         this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+            console.log("hello 2");
             options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
             API.post(apiName, path, options).then(response => { //open post request
-                console.log(response); //log success with proof
-                this.homePosts = response.body;
-                this.goToHome();
+                if(feedName == "home"){
+                    this.homePosts = response.body
+                    this.goToHome();
+                }else if(feedName == "events"){
+                    this.goingOnNowPosts = response.body
+                }else if(feedName == "world"){
+                    this.popularWorldwidePosts = response.body
+                }
+                //this.goToHome();
             }).catch(error => {
                 //error code
                 console.log(error); //log error
@@ -391,64 +421,128 @@ export class TabbedHomePage {
         });
     }
 
-  togCamera(){
-      //this.toggleCamera = !this.toggleCamera;
-      console.log("open camera");
-  }
+    getMorePostsByScore(feedName, minScore){
+        console.log(minScore);
+        let s_distance = 10000;
+        let apiName = 'mongoAPI'; //set api name
+        let path = '/publicPosts/getSortedNearby'; //set api gateway url
+        let options = { //setup options framework
+            body: {
+                coords: [0, 0],
+                feed: feedName, 
+                seachDistance: s_distance,
+                lastScore: minScore
+            }
+        }
+        this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+            options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
+            API.post(apiName, path, options).then(response => { //open post request
+                if(feedName == "home"){
+                    this.displayPosts = this.displayPosts.concat(response.body);
+                    console.log(response.body);
+                    this.homePosts = this.displayPosts as any[];
+                }else if(feedName == "events"){
+                    this.displayPosts.push(response.body);
+                    this.goingOnNowPosts = this.displayPosts as any[];
+                }else if(feedName == "world"){
+                    this.displayPosts.push(response.body);
+                    this.popularWorldwidePosts = this.displayPosts as any[];
+                }
+            }).catch(error => {
+                //error code
+                console.log(error); //log error
+            });
+        }).catch((error) => {
+            console.log('Error getting location', error); //log geolocation error
+        });
+    }
 
-  searched($event){ //handle searches
+    vote(postId, num){
+        console.log("modifying post with id: " + postId + " by " + num);
+        let apiName = 'mongoAPI';
+        let path = '/publicPosts/vote';
+        let options = {
+            body: {
+                postId: postId,
+                voteNum: num
+            }
+        }
+        API.post(apiName, path, options).then(response => {
+            console.log(response);
+            this.updateScoreInArray(postId, num);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    updateScoreInArray(postId, scoreChange){
+        for(let x = 0; x < this.homePosts.length; x++){
+            if(this.homePosts[x]._id == postId){
+                this.homePosts[x].score += scoreChange;
+                break;
+            }
+        }
+    }
+
+    togCamera(){
+        //this.toggleCamera = !this.toggleCamera;
+        console.log("open camera");
+    }
+
+    searched($event){ //handle searches
     console.log($event.target.value); //right now this just prints to console and toggles seach bar needs implementation server side
     this.togSearch(); 
-  }
+    }
 
-  loadMorePosts(infiniteScroll){
-    console.log('loading');
+    loadMorePosts(infiniteScroll){
+        console.log('loading');
+        this.getMorePostsByScore(this.currentFeed, this.displayPosts[this.displayPosts.length - 1].score);
+        console.log("here tho?");
+        setTimeout(() => {
+            console.log('Async operation has ended');
+            infiniteScroll.complete();
+        }, 1000);
+    }
 
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      infiniteScroll.complete();
-    }, 2000);
-  }
+    loadMoreUserPosts(infiniteScroll){
+        console.log('loading user posts');
 
-  loadMoreUserPosts(infiniteScroll){
-    console.log('loading user posts');
+        setTimeout(() => {
+            console.log('Async operation has ended');
+            infiniteScroll.complete();
+        }, 2000);
+    }
 
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      infiniteScroll.complete();
-    }, 2000);
-  }
+    doRefresh(refresher) {
+        console.log('Begin async operation', refresher);
+        this.getPostsByScore(this.currentFeed);
+        setTimeout(() => {
+            console.log('Async operation has ended');
+            refresher.complete();
+        }, 3000);
+    }
 
-  doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      refresher.complete();
-    }, 1000);
-  }
-
-  goToChat(chat) {
+    goToChat(chat) {
     this.navCtrl.push("CommunityPage", {
         chatInfo: chat
     });
-  }
+    }
 
-  goToCamera(){
+    goToCamera(){
     this.navCtrl.push("CameraPostPage", {
         userData: this.userData
     });
-  }
+    }
 
-  goToPlayKickBack(){
+    goToPlayKickBack(){
     this.navCtrl.push("PlayKickBackPage", {
         userData: this.userData
     });
-  }
+    }
 
-  goToCalendar(){
+    goToCalendar(){
     this.navCtrl.push("CalendarPage", {
         userData: this.userData
     });
-  }
+    }
 }

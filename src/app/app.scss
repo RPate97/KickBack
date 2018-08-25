@@ -253,6 +253,14 @@ ion-slides {
       padding-right: 1.5vw;
       color: color($colors, background);
     }
+
+    .vote-buttons {
+      height: 100%;
+      font-size: 3rem;
+      padding: 0;
+      margin: 0;
+      padding-right: 4vw;
+    }
   }
 
   .post-photo {

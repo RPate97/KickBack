@@ -19,9 +19,9 @@ app.use(awsServerlessExpressMiddleware.eventContext())
 
 //setup mongoDB vars
 var MongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb');
 let atlas_uri;
 let cachedDb = null; //cache it yo
-
 // Enable CORS for all methods
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
@@ -65,23 +65,8 @@ app.post('/publicPosts', function(req, res) {
     });
 });
 
-app.post('/publicPosts/getNearby', function(req, res){
+/*app.post('/publicPosts/getNearby', function(req, res){
     var postCollection = cachedDb.collection('publicPosts'); //get collection
-    /*postCollection.find( //find nearby stuff from user location
-        { 'location.coordinates':
-          { $near :
-            { $geometry:
-              { type: "Point",  coordinates: req.body.coords },
-                $maxDistance: 20000,
-                //distanceField: 'distance'
-            }
-          }
-        }
-    ).limit(10).toArray(function(err, docs) { //limit results to 10 and place in array
-        console.log("Found the following records");
-        console.log(docs);
-        res.json({success: 'successfully pulled nearby posts', body: docs})
-    }); */
     postCollection.aggregate([
         {
             $geoNear: {
@@ -100,37 +85,66 @@ app.post('/publicPosts/getNearby', function(req, res){
             res.json({success: 'successfully pulled nearby posts', body: docs})
         }
     });
-});
+});*/
 
 app.post('/publicPosts/getSortedNearby', function(req, res) {
     var postCollection = cachedDb.collection('publicPosts');
-
+    let distance = req.body.searchDistance; //set distance to user specified
+    let maxScore; //set score for filtering
+    if(req.body.lastScore == -1){
+        maxScore = 999999; //if passed score = -1 i.e there's nothing to filter set max really high
+    }else{
+        maxScore = req.body.lastScore; //otherwise setup var for filtering
+    }
     postCollection.aggregate([
         {
-            $geoNear: { 
+            $geoNear: { //run geo near stage to get stuff nearby 
                 near: { type: "Point", coordinates: req.body.coords }, 
-                maxDistance: 20000, //set distance to 20000 meters
+                maxDistance: distance, //set distance to current searching distance in meters meters
                 spherical: true, //search in a spherical area
-                distanceField: "distance",
+                distanceField: "distance", //get distance (may want to remove this unless needed specifically for events)
                 distanceMultiplier: 1/1609.34, //convert distance to miles
-                //num: 10 remove to get all
+                num: 50 //set fairly low max num to keep search time down (may result in missed posts need better optimization scheme)
+            }
+        },
+        {
+            $match: { //run match stage to filter out posts with score higher than passed score (for pages)
+                score: {
+                    $lt: maxScore //less than maxScore
+                }
             }
         },
         {
             $sort: {
-                score: -1
+                score: -1, //sort by score decending
             }
         },
         {
-            $limit: 10
-        }
+            $limit: 10, //limit response to 10
+        },
     ]).toArray((err, docs) => {
         if(err){
-            console.error(err);
+            console.error(err); //output error if needed
         }else{
-            res.json({success: 'successfully pulled nearby posts', body: docs})
+            found = docs;
+            res.json({success: 'successfully pulled nearby posts', body: found, distanceRequired: distance}); //respond with found docs
         }
     });
+});
+
+app.post('/publicPosts/vote', function(req, res){
+    let realid = new mongo.ObjectID(req.body.postId); //get id of post and convert to objectID
+    let updated = cachedDb.collection('publicPosts').findOneAndUpdate( 
+        { "_id": realid }, //find and update specified post based on passed id
+        { $inc: {"score": req.body.voteNum } }, //increment (or inc by -1) score to handle voting up and down
+        function(err, doc){ //handle return
+            if(err){
+                res.json(err); //output error if needed
+            }else{
+                res.json({str: 'You voted good job!', newDoc: doc.value.score}); //return with score
+            }
+        }
+    );
 });
 
 

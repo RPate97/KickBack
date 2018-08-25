@@ -95,8 +95,15 @@
                 </div>
                 <h2 class="post-name">{{post.Name}}</h2>
                 <p class="post-date">{{post.Date}}</p>
+                <p class="post-date">{{post.score}}</p>
+                <button ion-button (click)="vote(post._id, -1)" class="vote-buttons down" clear item-end color="danger">
+                  <ion-icon name="thumbs-down"></ion-icon>
+                </button>
+                <button ion-button (click)="vote(post._id, 1)" class="vote-buttons up" clear item-end color="secondary">
+                  <ion-icon name="thumbs-up"></ion-icon>
+                </button>
                 <button ion-button (click)="expandPostOptions()" class="post-options-button" clear item-end>
-                  <ion-icon name="more"></ion-icon>
+                  <ion-icon name="md-more"></ion-icon>
                 </button>
               </ion-item>
               <img *ngIf="post.imageSource" class="post-photo" src="{{post.imageSource}}">
@@ -145,7 +152,7 @@
           </ion-card>
         </ion-list>
 
-        <ion-infinite-scroll (ionInfinite)="loadMoreUserPosts($event)" threshold="300px" position="bottom">
+        <ion-infinite-scroll (ionInfinite)="loadMoreUserPosts($event)" threshold="20%" position="bottom">
           <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="Loading more data...">

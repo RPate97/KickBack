@@ -1,0 +1,4 @@
+-convert client side post requests to asyncronous
+https://www.raymondcamden.com/2016/04/25/an-example-of-virtualscroll-and-infinite-scroll-in-ionic-2
+-see above for info on asyncronous infinite scroll functions should work with current build
+-make sure to apply concepts to other functions as well

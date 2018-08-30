@@ -104,7 +104,7 @@ app.post('/publicPosts/getSortedNearby', function(req, res) {
                 spherical: true, //search in a spherical area
                 distanceField: "distance", //get distance (may want to remove this unless needed specifically for events)
                 distanceMultiplier: 1/1609.34, //convert distance to miles
-                num: 50 //set fairly low max num to keep search time down (may result in missed posts need better optimization scheme)
+                //num: 50 //set fairly low max num to keep search time down (may result in missed posts need better optimization scheme)
             }
         },
         {
@@ -120,7 +120,7 @@ app.post('/publicPosts/getSortedNearby', function(req, res) {
             }
         },
         {
-            $limit: 10, //limit response to 10
+            $limit: 20, //limit response to 10
         },
     ]).toArray((err, docs) => {
         if(err){

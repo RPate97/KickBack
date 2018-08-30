@@ -29,7 +29,7 @@
   
 </ion-header>
 
-<ion-content no-bounce>
+<ion-content>
   <ion-slides  (ionSlideWillChange)="changeWillSlide($event)" initialSlide="1">
     <ion-slide>
         <ion-content class="content-div">
@@ -113,7 +113,7 @@
             </ion-card>
           </ion-list>
 
-          <ion-infinite-scroll (ionInfinite)="loadMorePosts($event)" threshold="300px" position="bottom">
+          <ion-infinite-scroll (ionInfinite)="loadMorePosts($event)" threshold="2000px">
             <ion-infinite-scroll-content
               loadingSpinner="bubbles"
               loadingText="Loading more data...">
@@ -152,7 +152,7 @@
           </ion-card>
         </ion-list>
 
-        <ion-infinite-scroll (ionInfinite)="loadMoreUserPosts($event)" threshold="20%" position="bottom">
+        <ion-infinite-scroll (ionInfinite)="loadMoreUserPosts($event)">
           <ion-infinite-scroll-content
             loadingSpinner="bubbles"
             loadingText="Loading more data...">

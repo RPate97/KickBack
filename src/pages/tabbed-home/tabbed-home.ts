@@ -189,6 +189,13 @@ export class TabbedHomePage {
   displayPosts = this.homePosts;
   feedTabs: any = 'home';
   constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, private geolocation: Geolocation) { //setup page
+    this.getPostsByScore(this.currentFeed);
+  }
+
+  ionViewDidLoad() { //on finished loading begin rendering event/area feed
+    //this.getPosts("home");
+    //this.getPostsByScore("events");
+    //this.getPostsByScore("world");
   }
 
   goToHome(){
@@ -211,11 +218,9 @@ export class TabbedHomePage {
     this.isGoing = true;
     this.isWorldwide = false;
     this.currentFeed = "events";
-    console.log("loading events");
     /*if(this.goingOnNowPosts.length < 10){
         this.getPostsByScore(this.currentFeed);
     }*/
-    console.log("done loading events");
   }
   goToWorldwide(){
     //console.log("loading popular worldwide...");
@@ -225,18 +230,9 @@ export class TabbedHomePage {
     this.isGoing = false;
     this.isWorldwide = true;
     this.currentFeed = "world"
-    console.log("done loading popular");
     /*if(this.popularWorldwidePosts.length < 10){
         this.getPostsByScore(this.currentFeed);
     }*/
-    console.log("done loading popular");
-  }
-
-  ionViewDidLoad() { //on finished loading begin rendering event/area feed
-    //this.getPosts("home");
-    this.getPostsByScore(this.currentFeed);
-    this.getPostsByScore("events");
-    this.getPostsByScore("world");
   }
 
   changeWillSlide($event) { //handle slides setup on event
@@ -387,7 +383,6 @@ export class TabbedHomePage {
     }*/
 
     getPostsByScore(feedName){
-        console.log("hello");
         let s_distance = 10000;
         let apiName = 'mongoAPI'; //set api name
         let path = '/publicPosts/getSortedNearby'; //set api gateway url
@@ -400,16 +395,15 @@ export class TabbedHomePage {
             }
         }
         this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
-            console.log("hello 2");
             options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
             API.post(apiName, path, options).then(response => { //open post request
                 if(feedName == "home"){
-                    this.homePosts = response.body
+                    this.homePosts = response.body;
                     this.goToHome();
                 }else if(feedName == "events"){
-                    this.goingOnNowPosts = response.body
+                    this.goingOnNowPosts = response.body;
                 }else if(feedName == "world"){
-                    this.popularWorldwidePosts = response.body
+                    this.popularWorldwidePosts = response.body;
                 }
                 //this.goToHome();
             }).catch(error => {
@@ -422,38 +416,43 @@ export class TabbedHomePage {
     }
 
     getMorePostsByScore(feedName, minScore){
-        console.log(minScore);
-        let s_distance = 10000;
-        let apiName = 'mongoAPI'; //set api name
-        let path = '/publicPosts/getSortedNearby'; //set api gateway url
-        let options = { //setup options framework
-            body: {
-                coords: [0, 0],
-                feed: feedName, 
-                seachDistance: s_distance,
-                lastScore: minScore
-            }
-        }
-        this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
-            options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
-            API.post(apiName, path, options).then(response => { //open post request
-                if(feedName == "home"){
-                    this.displayPosts = this.displayPosts.concat(response.body);
-                    console.log(response.body);
-                    this.homePosts = this.displayPosts as any[];
-                }else if(feedName == "events"){
-                    this.displayPosts.push(response.body);
-                    this.goingOnNowPosts = this.displayPosts as any[];
-                }else if(feedName == "world"){
-                    this.displayPosts.push(response.body);
-                    this.popularWorldwidePosts = this.displayPosts as any[];
+        return new Promise(resolve => {
+            let s_distance = 10000;
+            let apiName = 'mongoAPI'; //set api name
+            let path = '/publicPosts/getSortedNearby'; //set api gateway url
+            let options = { //setup options framework
+                body: {
+                    coords: [0, 0],
+                    feed: feedName, 
+                    seachDistance: s_distance,
+                    lastScore: minScore
                 }
-            }).catch(error => {
-                //error code
-                console.log(error); //log error
+            }
+            this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+                options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
+                API.post(apiName, path, options).then(response => { //open post request
+                    for(let x = 0; x < response.body.length; x++){
+                        this.displayPosts.push(response.body[x]);
+                    }
+                    if(feedName == "home"){
+                        //this.displayPosts = this.displayPosts.concat(response.body);
+                        this.homePosts = this.displayPosts as any[];
+                    }else if(feedName == "events"){
+                        //this.displayPosts.push(response.body);
+                        this.goingOnNowPosts = this.displayPosts as any[];
+                    }else if(feedName == "world"){
+                        //this.displayPosts.push(response.body);
+                        this.popularWorldwidePosts = this.displayPosts as any[];
+                    }
+                    resolve(response.body);
+                }).catch(error => {
+                    console.log(error); //log error
+                    resolve(false);
+                });
+            }).catch((error) => {
+                console.log('Error getting location', error); //log geolocation error
+                resolve(false);
             });
-        }).catch((error) => {
-            console.log('Error getting location', error); //log geolocation error
         });
     }
 
@@ -495,13 +494,16 @@ export class TabbedHomePage {
     }
 
     loadMorePosts(infiniteScroll){
-        console.log('loading');
-        this.getMorePostsByScore(this.currentFeed, this.displayPosts[this.displayPosts.length - 1].score);
-        console.log("here tho?");
+        console.log("starting page loading async operation");
         setTimeout(() => {
-            console.log('Async operation has ended');
+        this.getMorePostsByScore(this.currentFeed, this.displayPosts[this.displayPosts.length - 1].score).then(() => {
+            /*for (var i = 0; i < newData.length; i++) {
+                this.displayPosts.push(newData[i]);
+            }*/
+            console.log("async loading ended");
             infiniteScroll.complete();
-        }, 1000);
+        });
+        }, 500);
     }
 
     loadMoreUserPosts(infiniteScroll){
@@ -510,16 +512,16 @@ export class TabbedHomePage {
         setTimeout(() => {
             console.log('Async operation has ended');
             infiniteScroll.complete();
-        }, 2000);
+        }, 500);
     }
 
     doRefresh(refresher) {
         console.log('Begin async operation', refresher);
-        this.getPostsByScore(this.currentFeed);
         setTimeout(() => {
+            this.getPostsByScore(this.currentFeed);
             console.log('Async operation has ended');
             refresher.complete();
-        }, 3000);
+        }, 500);
     }
 
     goToChat(chat) {

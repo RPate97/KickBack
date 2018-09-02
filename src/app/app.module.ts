@@ -19,6 +19,9 @@ import { Http } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
 
+//ionic storage
+import { IonicStorageModule } from '@ionic/storage';
+
 import Amplify from 'aws-amplify';
 const aws_exports = require('../aws-exports').default;
 
@@ -40,7 +43,8 @@ Amplify.configure(aws_exports);
       scrollPadding: false,
       scrollAssist: true,
       autoFocusAssist: false
-    })
+    }),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

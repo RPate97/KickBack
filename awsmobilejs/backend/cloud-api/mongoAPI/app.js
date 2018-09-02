@@ -96,22 +96,22 @@ app.post('/publicPosts/getSortedNearby', function(req, res) {
     }else{
         maxScore = req.body.lastScore; //otherwise setup var for filtering
     }
+    //postCollection.createIndex( {"location" : "2dsphere"});
+    try {
     postCollection.aggregate([
         {
             $geoNear: { //run geo near stage to get stuff nearby 
+                query: {
+                    score: {
+                        $lt: maxScore //less than maxScore
+                    }
+                },
                 near: { type: "Point", coordinates: req.body.coords }, 
                 maxDistance: distance, //set distance to current searching distance in meters meters
                 spherical: true, //search in a spherical area
                 distanceField: "distance", //get distance (may want to remove this unless needed specifically for events)
                 distanceMultiplier: 1/1609.34, //convert distance to miles
                 //num: 50 //set fairly low max num to keep search time down (may result in missed posts need better optimization scheme)
-            }
-        },
-        {
-            $match: { //run match stage to filter out posts with score higher than passed score (for pages)
-                score: {
-                    $lt: maxScore //less than maxScore
-                }
             }
         },
         {
@@ -130,6 +130,9 @@ app.post('/publicPosts/getSortedNearby', function(req, res) {
             res.json({success: 'successfully pulled nearby posts', body: found, distanceRequired: distance}); //respond with found docs
         }
     });
+    }catch(error){
+        res.json({success: "error: ", body: error});
+    }
 });
 
 app.post('/publicPosts/vote', function(req, res){

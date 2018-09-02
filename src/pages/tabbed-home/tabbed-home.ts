@@ -17,318 +17,347 @@ import { API } from 'aws-amplify';
   templateUrl: 'tabbed-home.html', //set templateUrl
 })
 export class TabbedHomePage {
-  @ViewChild('pageSlider') pageSlider: Slides; //setup View
+    @ViewChild('pageSlider') pageSlider: Slides; //setup View
 
 
-  toggleSearch: any = false; //set search toggle to default false
-  title: any = 'KickBack'; //set title to kickback default
-  currentPage: any = 1;
-  isHome = true;
-  isGoing = false;
-  isWorldwide = false;
-  stringSave: any = 'KickBack';
-  public textPostContext;
-  currentFeed = "home";
+    toggleSearch: any = false; //set search toggle to default false
+    title: any = 'KickBack'; //set title to kickback default
+    currentPage: any = 1;
+    isHome = true;
+    isGoing = false;
+    isWorldwide = false;
+    stringSave: any = 'KickBack';
+    public textPostContext;
+    currentFeed = "home";
+    currentLocation = [0, 0];
+    //kickback live option variable (default)
+    public searchDistance = 50;
+    public groupSize = 5;
+    public allGenders = true;
+    public myGender = false;
 
-  homePosts = [ //create some test content will need to be replaced with server content
+    homePosts = [ //create some test content will need to be replaced with server content
 
-  ];
+    ];
 
-  goingOnNowPosts = [ //content for area feed
-      /*{
-          Name: 'Emelia',
-          Context: 'This this is the going on now feed'
-      },
-      {
-          Name: 'Ryan',
-          Context: 'This might actually work'
-      },
-      {
-          Name: 'Joe',
-          Context: 'This might actually work'
-      },
-      {
-          Name: 'Rohan',
-          Context: 'This might actually work'
-      },      
-      {
-          Name: 'Emelia',
-          Context: 'This might actually work'
-      }*/
-  ]
-
-  popularWorldwidePosts = [ //content for event feed
-    /*{
-        Name: 'Ryan',
-        Context: 'This is the popular worldwide feed'
-    },
-    {
-        Name: 'Joe',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Rohan',
-        Context: 'This might actually work'
-    },      
-    {
-        Name: 'Emelia',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Ryan',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Joe',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Rohan',
-        Context: 'This might actually work'
-    },      
-    {
-        Name: 'Emelia',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Ryan',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Joe',
-        Context: 'This might actually work'
-    },
-    {
-        Name: 'Rohan',
-        Context: 'This might actually work'
-    },      
-    {
-        Name: 'Emelia',
-        Context: 'This might actually work'
-    }*/
-  ]
-  userData = {
-    Name: "Ryan",
-    Acquaintances: 25,
-    Friends: 53,
-    Sociality: 7543,
-    ID: "1",
-    Posts: [
-        {
-            Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+    goingOnNowPosts = [ //content for area feed
+        /*{
+            Name: 'Emelia',
+            Context: 'This this is the going on now feed'
         },
         {
             Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Context: 'This might actually work'
+        },
+        {
+            Name: 'Joe',
+            Context: 'This might actually work'
+        },
+        {
+            Name: 'Rohan',
+            Context: 'This might actually work'
         },      
         {
+            Name: 'Emelia',
+            Context: 'This might actually work'
+        }*/
+    ]
+
+    popularWorldwidePosts = [ //content for event feed
+        /*{
             Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Context: 'This is the popular worldwide feed'
         },
         {
-            Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Name: 'Joe',
+            Context: 'This might actually work'
         },
         {
-            Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
-        },
-        {
-            Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
-        },
-        {
-            Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Name: 'Rohan',
+            Context: 'This might actually work'
         },      
         {
-            Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Name: 'Emelia',
+            Context: 'This might actually work'
         },
         {
             Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Context: 'This might actually work'
+        },
+        {
+            Name: 'Joe',
+            Context: 'This might actually work'
+        },
+        {
+            Name: 'Rohan',
+            Context: 'This might actually work'
+        },      
+        {
+            Name: 'Emelia',
+            Context: 'This might actually work'
         },
         {
             Name: 'Ryan',
-            Context: 'This might actually work',
-            Date: 'July 16th, 2018'
+            Context: 'This might actually work'
+        },
+        {
+            Name: 'Joe',
+            Context: 'This might actually work'
+        },
+        {
+            Name: 'Rohan',
+            Context: 'This might actually work'
+        },      
+        {
+            Name: 'Emelia',
+            Context: 'This might actually work'
+        }*/
+    ]
+    userData = {
+        Name: "Ryan",
+        Acquaintances: 25,
+        Friends: 53,
+        Sociality: 7543,
+        ID: "1",
+        devMode: false,
+        Posts: [
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },      
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },      
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            },
+            {
+                Name: 'Ryan',
+                Context: 'This might actually work',
+                Date: 'July 16th, 2018'
+            }
+        ]
+    }
+    chats = [
+        {
+            Name: "People Drake hates less",
+            LastMessage: "wow this is a pretty cool community",
+            ChatId: 32432432,
+            Type: 'community'
+        },
+        {
+            Name: "Gucci Gang",
+            LastMessage: "wow this is a pretty shitty name for a chat",
+            ChatId: 435643,
+            Type: 'community'
+        },
+        {
+            Name: "Friday beers by the river",
+            LastMessage: "So who's getting the beer? I'm a cheap ass",
+            ChatId: 21312,
+            Type: 'event'
         }
     ]
-  }
-  chats = [
-      {
-        Name: "People Drake hates less",
-        LastMessage: "wow this is a pretty cool community",
-        ChatId: 32432432,
-        Type: 'community'
-      },
-      {
-        Name: "Gucci Gang",
-        LastMessage: "wow this is a pretty shitty name for a chat",
-        ChatId: 435643,
-        Type: 'community'
-      },
-      {
-        Name: "Friday beers by the river",
-        LastMessage: "So who's getting the beer? I'm a cheap ass",
-        ChatId: 21312,
-        Type: 'event'
-      }
-  ]
-  displayPosts = this.homePosts;
-  feedTabs: any = 'home';
-  constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, private geolocation: Geolocation) { //setup page
-    this.getPostsByScore(this.currentFeed);
-  }
-
-  ionViewDidLoad() { //on finished loading begin rendering event/area feed
-    //this.getPosts("home");
-    //this.getPostsByScore("events");
-    //this.getPostsByScore("world");
-  }
-
-  goToHome(){
-    //console.log("loading home...");
-    this.title = 'KickBack';
-    this.displayPosts = this.homePosts as any[];
-    this.isHome = true;
-    this.isGoing = false;
-    this.isWorldwide = false;
-    this.currentFeed = "home";
-    /*if(this.homePosts.length < 10){
-        this.getPostsByScore(this.currentFeed);
-    }*/
-  }
-  goToGoingOn(){
-    //console.log("loading going on now...");
-    this.title = 'Going on Now';
-    this.displayPosts = this.goingOnNowPosts as any[];
-    this.isHome = false;
-    this.isGoing = true;
-    this.isWorldwide = false;
-    this.currentFeed = "events";
-    /*if(this.goingOnNowPosts.length < 10){
-        this.getPostsByScore(this.currentFeed);
-    }*/
-  }
-  goToWorldwide(){
-    //console.log("loading popular worldwide...");
-    this.title = 'Worldwide';
-    this.displayPosts = this.popularWorldwidePosts as any[];
-    this.isHome = false;
-    this.isGoing = false;
-    this.isWorldwide = true;
-    this.currentFeed = "world"
-    /*if(this.popularWorldwidePosts.length < 10){
-        this.getPostsByScore(this.currentFeed);
-    }*/
-  }
-
-  changeWillSlide($event) { //handle slides setup on event
-    if($event.realIndex == 0){
-        this.stringSave = this.title;
-        this.title = "Communities";
-    }else if($event.realIndex == 1){
-        this.title = this.stringSave;
-    }else if ($event.realIndex == 2){
-        this.stringSave = this.title;
-        this.title = this.userData.Name;
+    displayPosts = this.homePosts;
+    feedTabs: any = 'home';
+    constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, private geolocation: Geolocation) { //setup page
     }
-  }
 
-  togSearch(){
-      //console.log('toggled search');
-      this.toggleSearch = !this.toggleSearch; //toggle the search bar visible invisible 
-  }
+    ionViewDidLoad() { //on finished loading begin rendering event/area feed
+        //use this please
+        //https://www.joshmorony.com/using-behaviorsubject-to-handle-asynchronous-loading-in-ionic/
 
-  getLovelyTime(){
-    let dateObj = new Date();
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let dayEnds = ["st", "nd", "rd"];
-    let endNum = dateObj.getDay() % 10 + 1;
-    let correctEnd;
-    let hour = dateObj.getHours();
-    let hourArea;
-    if(hour > 12){
-      hourArea = "pm";
-      hour -= 12;
-    }else {
-        hourArea = "am";
+
+        //this.getPosts("home");
+        //this.getPostsByScore("events");
+        //this.getPostsByScore("world");
+        /*try {
+            this.nativeStorage.getItem('coords').then((val) => { //get location if stored in memory
+                if(val){ //if found set to current location
+                    this.currentLocation = [val.lat, val.lon];
+                }else{ //if not found set to current location
+                    this.geolocation.getCurrentPosition().then((resp) => { 
+                        nativeStorage.setItem('coords', JSON.stringify(resp.coords));
+                    }).catch((error) => {
+                        console.log('Error getting location', error); //log geolocation error
+                    });
+                }
+                console.log("coords: " + val); //log value
+            });
+        }catch(err){
+            console.error(err);
+        }*/
+
+        this.getPostsByScore(this.currentFeed); //load posts to home
     }
-    if(hour == 0){
-      hour = 12;
+
+    goToHome(){
+        //console.log("loading home...");
+        this.title = 'KickBack';
+        this.displayPosts = this.homePosts as any[];
+        this.isHome = true;
+        this.isGoing = false;
+        this.isWorldwide = false;
+        this.currentFeed = "home";
+        /*if(this.homePosts.length < 10){
+            this.getPostsByScore(this.currentFeed);
+        }*/
     }
-    let minute = dateObj.getMinutes();
-    let realMinute;
-    if(minute < 10){
-        realMinute = "0" + minute.toString();
-    }else{
-        realMinute = minute;
+    goToGoingOn(){
+        //console.log("loading going on now...");
+        this.title = 'Going on Now';
+        this.displayPosts = this.goingOnNowPosts as any[];
+        this.isHome = false;
+        this.isGoing = true;
+        this.isWorldwide = false;
+        this.currentFeed = "events";
+        /*if(this.goingOnNowPosts.length < 10){
+            this.getPostsByScore(this.currentFeed);
+        }*/
     }
-    let time = hour + ":" + realMinute + hourArea;
-    if(endNum < 4 && endNum != 0){
-      correctEnd = dayEnds[endNum];
-    }else {
-        correctEnd = "th";
+    goToWorldwide(){
+        //console.log("loading popular worldwide...");
+        this.title = 'Worldwide';
+        this.displayPosts = this.popularWorldwidePosts as any[];
+        this.isHome = false;
+        this.isGoing = false;
+        this.isWorldwide = true;
+        this.currentFeed = "world"
+        /*if(this.popularWorldwidePosts.length < 10){
+            this.getPostsByScore(this.currentFeed);
+        }*/
     }
-    return time + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getDay().toString() + correctEnd + ', ' + dateObj.getFullYear();
-  }
+
+    changeWillSlide($event) { //handle slides setup on event
+        if($event.realIndex == 0){
+            this.stringSave = this.title;
+            this.title = "Communities";
+        }else if($event.realIndex == 1){
+            this.title = this.stringSave;
+        }else if ($event.realIndex == 2){
+            this.stringSave = this.title;
+            this.title = this.userData.Name;
+        }
+    }
+
+    togSearch(){
+        //console.log('toggled search');
+        this.toggleSearch = !this.toggleSearch; //toggle the search bar visible invisible 
+    }
+
+    getLovelyTime(){
+        let dateObj = new Date();
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let dayEnds = ["st", "nd", "rd"];
+        let endNum = dateObj.getDay() % 10 + 1;
+        let correctEnd;
+        let hour = dateObj.getHours();
+        let hourArea;
+        if(hour > 12){
+        hourArea = "pm";
+        hour -= 12;
+        }else {
+            hourArea = "am";
+        }
+        if(hour == 0){
+        hour = 12;
+        }
+        let minute = dateObj.getMinutes();
+        let realMinute;
+        if(minute < 10){
+            realMinute = "0" + minute.toString();
+        }else{
+            realMinute = minute;
+        }
+        let time = hour + ":" + realMinute + hourArea;
+        if(endNum < 4 && endNum != 0){
+        correctEnd = dayEnds[endNum];
+        }else {
+            correctEnd = "th";
+        }
+        return time + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getDay().toString() + correctEnd + ', ' + dateObj.getFullYear();
+    }
 
   //handles clientside making posts
-  makePost(){ //NEED TO CHECK IF THIS IS SECURE WOULDN'T WANT ANY HTML RUNNING IN HERE...
-    if(this.textPostContext != undefined && this.textPostContext != ""){
-        let newTextPost = {
-            type: 'text',
-            Name: this.userData.Name,
-            Context: this.textPostContext,
-            Date: this.getLovelyTime(),
-            location: {
-                type: "Point",
-                coordinates: [0,0]
-            },
-            score: 0,
+    makePost(){ //NEED TO CHECK IF THIS IS SECURE WOULDN'T WANT ANY HTML RUNNING IN HERE...
+        if(this.textPostContext != undefined && this.textPostContext != ""){
+            let newTextPost = {
+                type: 'text',
+                Name: this.userData.Name,
+                Context: this.textPostContext,
+                Date: this.getLovelyTime(),
+                location: {
+                    type: "Point",
+                    coordinates: [0,0]
+                },
+                score: 0,
+            }
+            this.homePosts.unshift(newTextPost);
+            this.userData.Posts.unshift(newTextPost);
+            this.textPostContext = "";
+            this.geolocation.getCurrentPosition().then((resp) => {
+                newTextPost.location.coordinates = [resp.coords.longitude, resp.coords.latitude];
+                this.sendPostToServer(newTextPost);
+            }).catch((error) => {
+                console.log('Error getting location', error);
+            });
+        }else{
+            console.log("cant make a post with not content");
         }
-        this.homePosts.unshift(newTextPost);
-        this.userData.Posts.unshift(newTextPost);
-        this.textPostContext = "";
-        this.geolocation.getCurrentPosition().then((resp) => {
-            newTextPost.location.coordinates = [resp.coords.longitude, resp.coords.latitude];
-            this.sendPostToServer(newTextPost);
-        }).catch((error) => {
-            console.log('Error getting location', error);
-        });
-    }else{
-        console.log("cant make a post with not content");
     }
-  }
 
-  sendPostToServer(post){ //temp function for handling adding the post to the backend datastore
-    let apiName = 'mongoAPI'; //set api name
-    let path = '/publicPosts'; //set api gateway url
-    let options = { //set options
-        body: post
+    sendPostToServer(post){ //temp function for handling adding the post to the backend datastore
+        let apiName = 'mongoAPI'; //set api name
+        let path = '/publicPosts'; //set api gateway url
+        let options = { //set options
+            body: post
+        }
+        console.log(options);
+        API.post(apiName, path, options).then(response => { //open post request
+            console.log(response); //log success with proof
+            return true;
+        }).catch(error => {
+            //error code
+            console.log(error); //log error
+            return false;
+        });
     }
-    console.log(options);
-    API.post(apiName, path, options).then(response => { //open post request
-        console.log(response); //log success with proof
-        return true;
-    }).catch(error => {
-        //error code
-        console.log(error); //log error
-        return false;
-    });
-  }
+
     getCoord(top, bottom, dec){
         return (Math.random() * (top - bottom) + bottom).toFixed(dec) * 1;
     }
@@ -396,9 +425,12 @@ export class TabbedHomePage {
         }
         this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
             options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
+            this.currentLocation = options.body.coords;
             API.post(apiName, path, options).then(response => { //open post request
+                this.displayPosts = response.body;
                 if(feedName == "home"){
                     this.homePosts = response.body;
+                    console.log(response.body);
                     this.goToHome();
                 }else if(feedName == "events"){
                     this.goingOnNowPosts = response.body;
@@ -416,6 +448,7 @@ export class TabbedHomePage {
     }
 
     getMorePostsByScore(feedName, minScore){
+        console.log("top");
         return new Promise(resolve => {
             let s_distance = 10000;
             let apiName = 'mongoAPI'; //set api name
@@ -428,12 +461,14 @@ export class TabbedHomePage {
                     lastScore: minScore
                 }
             }
-            this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+            /*this.geolocation.getCurrentPosition().then((resp) => { //call geolocation to get user location
+                console.log("got cords")
                 options.body.coords = [resp.coords.longitude, resp.coords.latitude]; //set options coordinates for indexing
                 API.post(apiName, path, options).then(response => { //open post request
-                    for(let x = 0; x < response.body.length; x++){
-                        this.displayPosts.push(response.body[x]);
-                    }
+                    console.log("got posts from server")
+                    this.displayPosts.push(...response.body);
+                    //this.displayPosts = this.displayPosts.concat(response.body);
+                    //this.displayPosts.push(response.body);
                     if(feedName == "home"){
                         //this.displayPosts = this.displayPosts.concat(response.body);
                         this.homePosts = this.displayPosts as any[];
@@ -444,6 +479,7 @@ export class TabbedHomePage {
                         //this.displayPosts.push(response.body);
                         this.popularWorldwidePosts = this.displayPosts as any[];
                     }
+                    console.log("bottom");
                     resolve(response.body);
                 }).catch(error => {
                     console.log(error); //log error
@@ -451,6 +487,28 @@ export class TabbedHomePage {
                 });
             }).catch((error) => {
                 console.log('Error getting location', error); //log geolocation error
+                resolve(false);
+            });*/
+            options.body.coords = this.currentLocation; //set options coordinates for indexing
+            API.post(apiName, path, options).then(response => { //open post request
+                console.log("got posts from server")
+                this.displayPosts.push(...response.body);
+                //this.displayPosts = this.displayPosts.concat(response.body);
+                //this.displayPosts.push(response.body);
+                if(feedName == "home"){
+                    //this.displayPosts = this.displayPosts.concat(response.body);
+                    this.homePosts = this.displayPosts as any[];
+                }else if(feedName == "events"){
+                    //this.displayPosts.push(response.body);
+                    this.goingOnNowPosts = this.displayPosts as any[];
+                }else if(feedName == "world"){
+                    //this.displayPosts.push(response.body);
+                    this.popularWorldwidePosts = this.displayPosts as any[];
+                }
+                console.log("bottom");
+                resolve(response.body);
+            }).catch(error => {
+                console.log(error); //log error
                 resolve(false);
             });
         });
@@ -503,7 +561,7 @@ export class TabbedHomePage {
             console.log("async loading ended");
             infiniteScroll.complete();
         });
-        }, 500);
+        }, 1000);
     }
 
     loadMoreUserPosts(infiniteScroll){
@@ -521,7 +579,7 @@ export class TabbedHomePage {
             this.getPostsByScore(this.currentFeed);
             console.log('Async operation has ended');
             refresher.complete();
-        }, 500);
+        }, 1000);
     }
 
     goToChat(chat) {
@@ -531,20 +589,49 @@ export class TabbedHomePage {
     }
 
     goToCamera(){
-    this.navCtrl.push("CameraPostPage", {
-        userData: this.userData
-    });
+        this.navCtrl.push("CameraPostPage", {
+            userData: this.userData
+        });
     }
 
     goToPlayKickBack(){
-    this.navCtrl.push("PlayKickBackPage", {
-        userData: this.userData
-    });
+        this.navCtrl.push("PlayKickBackPage", {
+            userData: this.userData
+        });
     }
 
     goToCalendar(){
-    this.navCtrl.push("CalendarPage", {
-        userData: this.userData
-    });
+        this.navCtrl.push("CalendarPage", {
+            userData: this.userData
+        });
+    }
+
+    goToProfile(){
+        this.navCtrl.push("ProfilePage", {
+            userData: this.userData
+        });
+    }
+
+
+    goToKickBackLiveSettings(){
+        this.navCtrl.push("KickBackLiveSettingsPage", {
+            userData: this.userData,
+            searchDistance: this.searchDistance,
+            groupSize: this.groupSize,
+            allGenders: this.allGenders,
+            myGender: this.myGender
+        });
+    }
+
+    changeAllGenders(){
+        if(this.allGenders){
+            this.myGender = false;
+        }
+    }
+
+    changeOnlyMyGender(){
+        if(this.myGender){
+            this.allGenders = false;
+        }
     }
 }

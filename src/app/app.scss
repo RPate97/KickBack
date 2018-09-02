@@ -259,7 +259,7 @@ ion-slides {
       font-size: 3rem;
       padding: 0;
       margin: 0;
-      padding-right: 4vw;
+      padding-right: 2vw;
     }
   }
 
@@ -286,3 +286,16 @@ ion-slides {
 .chat-icon {
   font-size: 35px;
 }
+
+.live-options {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  .distanceSelect {
+    background: color($colors, background);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+}
+

@@ -58,7 +58,7 @@ Amplify.configure(aws_exports);
     DynamoDB, 
     Camera,
     Http,
-    Geolocation,
+    Geolocation
   ]
 })
 export class AppModule {}

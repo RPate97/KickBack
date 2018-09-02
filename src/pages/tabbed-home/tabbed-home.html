@@ -21,7 +21,10 @@
       <button ion-button *ngIf="!toggleSearch" (click)="togSearch()" class="search-button" clear>
         <ion-icon name="search"></ion-icon>
       </button>
-      <button ion-button *ngIf="!toggleSearch" (click)="generatePosts(1)" class="search-button" clear>
+      <button ion-button *ngIf="!toggleSearch" (click)="goToProfile()" class="search-button" clear>
+          <ion-icon name="locate"></ion-icon>
+        </button>
+      <button ion-button *ngIf="!toggleSearch && userData.devMode" (click)="generatePosts(1)" class="search-button" clear>
         <ion-icon name="locate"></ion-icon>
       </button>
     </ion-buttons>
@@ -82,11 +85,9 @@
         </ion-header>
 
         <ion-content class="feed-content-div" scrollbar-y="false">
-
           <ion-refresher (ionRefresh)="doRefresh($event)">
             <ion-refresher-content></ion-refresher-content>
           </ion-refresher>
-
           <ion-list>
             <ion-card *ngFor="let post of displayPosts" class="text-post">
               <ion-item class="post-header">
@@ -95,10 +96,10 @@
                 </div>
                 <h2 class="post-name">{{post.Name}}</h2>
                 <p class="post-date">{{post.Date}}</p>
-                <p class="post-date">{{post.score}}</p>
                 <button ion-button (click)="vote(post._id, -1)" class="vote-buttons down" clear item-end color="danger">
                   <ion-icon name="thumbs-down"></ion-icon>
                 </button>
+                <ion-badge item-end>{{post.score}}</ion-badge>
                 <button ion-button (click)="vote(post._id, 1)" class="vote-buttons up" clear item-end color="secondary">
                   <ion-icon name="thumbs-up"></ion-icon>
                 </button>
@@ -111,53 +112,49 @@
                 {{post.Context}}
               </ion-card-content>
             </ion-card>
+
+            <ion-infinite-scroll (ionInfinite)="loadMorePosts($event)" threshold="2500px">
+              <ion-infinite-scroll-content
+                loadingSpinner="dots"
+                loadingText="Loading nearby posts...">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
           </ion-list>
-
-          <ion-infinite-scroll (ionInfinite)="loadMorePosts($event)" threshold="2000px">
-            <ion-infinite-scroll-content
-              loadingSpinner="bubbles"
-              loadingText="Loading more data...">
-            </ion-infinite-scroll-content>
-          </ion-infinite-scroll>
-
         </ion-content>
     </ion-slide>
 
     <ion-slide>
-      <ion-header class="profile-header">
-        <ion-card class="profile-card">
-            <h2>{{userData.Name}}</h2>
-            <p>Friends: {{userData.Friends}}</p>
-            <p>Acquaintances: {{userData.Acquaintances}}</p>
-            <p>Sociality: {{userData.Sociality}}</p>
-        </ion-card>
-      </ion-header>
       <ion-content class="content-div my-profile">
-
-        <ion-list>
-          <ion-card *ngFor="let post of userData.Posts" class="text-post my-post">
-            <ion-item class="post-header">
-              <div class="post-avatar" item-start>
-
-              </div>
-              <h2 class="post-name">{{post.Name}}</h2>
-              <p class="post-date">{{post.Date}}</p>
-              <button ion-button (click)="expandPostOptions()" class="post-options-button" clear item-end>
-                <ion-icon name="more"></ion-icon>
-              </button>
-            </ion-item>
-            <ion-card-content class="post-context">
-              {{post.Context}}
-            </ion-card-content>
-          </ion-card>
-        </ion-list>
-
-        <ion-infinite-scroll (ionInfinite)="loadMoreUserPosts($event)">
-          <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="Loading more data...">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+        <button ion-button (click)="goToKickBackLiveSettings()" class="settings-button" clear>
+          <ion-icon name="settings"></ion-icon>
+        </button>
+        <ion-card>
+          <ion-item>
+            Find new friends within 
+            <ion-badge color="head" item-end>{{searchDistance}}mi.</ion-badge>
+          </ion-item>
+          <ion-range min="1" max="100" [(ngModel)]="searchDistance" color="head" class="distanceSelect">
+          </ion-range>
+        </ion-card>
+        <ion-card>
+          <ion-item>
+            Prefered group size
+            <ion-badge color="head" item-end>{{groupSize}} people</ion-badge>
+          </ion-item>
+          <ion-range snaps="true" min="3" max="20" [(ngModel)]="groupSize" color="head" class="distanceSelect">
+          </ion-range>
+        </ion-card>
+        <ion-card>
+          <ion-label item-start>My group should be</ion-label>
+          <ion-item>
+            <ion-label>All genders</ion-label>
+            <ion-checkbox color="head" checked="allGenders" [(ngModel)]="allGenders" (ionChange)="changeAllGenders()"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label>Only my gender</ion-label>
+            <ion-checkbox color="head" [(ngModel)]="myGender" checked="myGender" (ionChange)="changeOnlyMyGender()"></ion-checkbox>
+          </ion-item>
+        </ion-card>
       </ion-content>
     </ion-slide>
   </ion-slides>

@@ -120,7 +120,7 @@ export class TabbedHomePage {
         Friends: 53,
         Sociality: 7543,
         ID: "1",
-        devMode: true,
+        devMode: false,
         Posts: [
             {
                 Name: 'Ryan',

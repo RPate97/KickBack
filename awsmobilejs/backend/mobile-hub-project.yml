@@ -17,13 +17,13 @@ features:
             environment:
               MONGO_URI: 'mongodb+srv://admin:z0VTqUbYHUiXRfFPTGbA@testingcluster-43bi2.mongodb.net/test?retryWrites=true'
             handler: lambda.handler
-            hashcode: h+vlMciu6/Rf+uzyf1qqixjxO/+XOgir335zTGzmwSM=
-            memorySize: '128'
-            modified: '2018-08-20T00:07:31.243+0000'
+            hashcode: PffFvog/cGotKzS9y6e+KVvTvxiYgD1ndeyc2fw36uM=
+            memorySize: '704'
+            modified: '2018-08-30T07:25:49.152+0000'
             name: mongoAPI
             runtime: nodejs6.10
             timeout: '3'
-            version: dd4q3B6M7f8IRC3EnqmRLqSULJQmFhhZ
+            version: grd6x1lXkQj3KnrVaMa_n6.pOaUPCMQS
           '/publicPosts/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
             codeFilename: uploads/mongoAPI-20180819161234.zip
             description: 'Handler for calls to resource path : /publicPosts/{proxy+}'
@@ -31,13 +31,13 @@ features:
             environment:
               MONGO_URI: 'mongodb+srv://admin:z0VTqUbYHUiXRfFPTGbA@testingcluster-43bi2.mongodb.net/test?retryWrites=true'
             handler: lambda.handler
-            hashcode: h+vlMciu6/Rf+uzyf1qqixjxO/+XOgir335zTGzmwSM=
-            memorySize: '128'
-            modified: '2018-08-20T00:07:31.243+0000'
+            hashcode: PffFvog/cGotKzS9y6e+KVvTvxiYgD1ndeyc2fw36uM=
+            memorySize: '704'
+            modified: '2018-08-30T07:25:49.152+0000'
             name: mongoAPI
             runtime: nodejs6.10
             timeout: '3'
-            version: .gL2tWke9vqXtm0zafc373rfK6xUCiDq
+            version: jFnc6G2DnQGfZM_Bklhf8NxfEY1xQpAR
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true
@@ -68,9 +68,7 @@ features:
             rangeKeyType: S
             tableName: ___DYNAMIC_PREFIX___-AWSMobileTable
             tablePrivacy: public
-  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint 
-    components:
-      analytics: !com.amazonaws.mobilehub.v0.PinpointAnalytics {}
+  mobile-analytics: !com.amazonaws.mobilehub.v0.Pinpoint {}
   sign-in: !com.amazonaws.mobilehub.v0.SignIn 
     attributes:
       enabled: true
